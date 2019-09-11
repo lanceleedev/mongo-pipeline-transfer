@@ -3,10 +3,10 @@
  */
 package com.mongodb.pipeline.transfer.helper;
 
-import org.bson.Document;
-
+import com.mongodb.pipeline.transfer.constants.MongoConstants;
 import com.mongodb.pipeline.transfer.operation.ExpOperation;
 import com.mongodb.pipeline.transfer.operation.StringOperation;
+import org.bson.Document;
 
 /**
  * 函数处理
@@ -20,27 +20,31 @@ import com.mongodb.pipeline.transfer.operation.StringOperation;
 public class FunctionHelper {
     /**
      * <p>解析函数，根据函数类型，选择对应的解析方式</p>
+     *
      * @param operate 函数
-     * @param value 需要解析内容
+     * @param value   需要解析内容
      * @return
      */
     public static Document parse(String operate, String value) {
         Document operation = null;
         switch (operate) {
-        case "$substr":
-            operation = StringOperation.substr(value);
-            break;
-        case "$cond":
-            operation = ExpOperation.cond(value);
-            break;
-        case "$ifNull":
-            operation = ExpOperation.ifNull(value);
-            break;
-        case "$multiply":
-            operation = ExpOperation.multiply(value);
-            break;
-        default:
-            throw new RuntimeException("dont't support this operation!" + operation);
+            case MongoConstants.add:
+                operation = ExpOperation.add(value);
+                break;
+            case "$multiply":
+                operation = ExpOperation.multiply(value);
+                break;
+            case "$substr":
+                operation = StringOperation.substr(value);
+                break;
+            case "$cond":
+                operation = ExpOperation.cond(value);
+                break;
+            case "$ifNull":
+                operation = ExpOperation.ifNull(value);
+                break;
+            default:
+                throw new RuntimeException("dont't support this operation!" + operation);
         }
         return operation;
     }

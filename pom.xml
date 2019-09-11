@@ -1,33 +1,46 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>mongo</groupId>
-	<artifactId>mongo-pipeline-transfer</artifactId>
-	<version>1.0.1</version>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>mongo</groupId>
+    <artifactId>mongo-pipeline-transfer</artifactId>
+    <version>1.0.1</version>
 
-	<properties>
-		<log4j2-version>2.11.1</log4j2-version>
-		<fastjson.version>1.2.58</fastjson.version>
-		<commons-lang3.version>3.7</commons-lang3.version>
-		<mongo-java-driver.version>3.10.2</mongo-java-driver.version>
-	</properties>
+    <properties>
+        <log4j2-version>2.11.1</log4j2-version>
+        <junit.version>4.11</junit.version>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${commons-lang3.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>${fastjson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>${mongo-java-driver.version}</version>
-		</dependency>
+        <fastjson.version>1.2.58</fastjson.version>
+        <commons-lang3.version>3.7</commons-lang3.version>
+        <mongo-java-driver.version>3.10.2</mongo-java-driver.version>
 
-	</dependencies>
+        <project-sourceEncoding>UTF-8</project-sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongo-java-driver.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
+    </dependencies>
 </project>

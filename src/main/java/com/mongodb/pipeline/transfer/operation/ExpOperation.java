@@ -3,16 +3,16 @@
  */
 package com.mongodb.pipeline.transfer.operation;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.mongodb.pipeline.transfer.constants.MongoConstants;
+import com.mongodb.pipeline.transfer.helper.TypesHelper;
+import com.mongodb.pipeline.transfer.util.JSONUtils;
+import org.bson.Document;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.bson.Document;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.mongodb.pipeline.transfer.helper.TypesHelper;
-import com.mongodb.pipeline.transfer.util.JSONUtils;
 
 /**
  * 表达式操作符解析
@@ -24,8 +24,51 @@ import com.mongodb.pipeline.transfer.util.JSONUtils;
  * </pre>
  */
 public class ExpOperation {
+
+    /**
+     * add操作符转换
+     * { $add: [ <expression1>, <expression2>, ... ] }
+     * @param json
+     * @return
+     */
+    public static Document add(String json){
+        return new Document(MongoConstants.add, Arrays.asList(getArrayExpression(json)));
+    }
+
+    /**
+     * multiply操作符转换<br>
+     * { $multiply: [ <expression1>, <expression2>, ... ] }
+     * @param json
+     * @return
+     */
+    public static Document multiply(String json) {
+        return new Document("$multiply", Arrays.asList(getArrayExpression(json)));
+    }
+
+    /**
+     * 数组类型表达式获取
+     * @param json
+     * @return
+     */
+    public static Object[] getArrayExpression(String json) {
+        JSONArray array = JSONObject.parseArray(json);
+        Object[] values = new Object[array.size()];
+        for (int i = 0, len = array.size(); i < len; i++) {
+            Object obj = array.get(i);
+            if (obj.toString().startsWith("{")) {
+                Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(obj.toString().trim());
+                Map.Entry<String, ?> tmpNext = tmpIter.next();
+                values[i] = TypesHelper.parse(tmpNext.getKey(), tmpNext.getValue());
+            } else {
+                values[i] = obj;
+            }
+        }
+        return values;
+    }
+
     /**
      * <p>cond 操作符解析</p>
+     *
      * @param json
      * @return
      */
@@ -70,6 +113,7 @@ public class ExpOperation {
      * <p>ifNull操作符解析</p>
      * Sample:<br>
      * ["$money",""]
+     *
      * @param json
      * @return
      */
@@ -87,26 +131,5 @@ public class ExpOperation {
         return new Document("$ifNull", Arrays.asList(field, value));
     }
 
-    /**
-     * <p>multiply操作符转换</p>
-     * Sample:<br>
-     * ["$money","$number",{"NumberLong" : 1}]
-     * @param json
-     * @return
-     */
-    public static Document multiply(String json) {
-        JSONArray array = JSONObject.parseArray(json);
-        Object[] values = new Object[array.size()];
-        for (int i = 0, len = array.size(); i < len; i++) {
-            Object obj = array.get(i);
-            if (obj.toString().startsWith("{")) {
-                Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(obj.toString().trim());
-                Map.Entry<String, ?> tmpNext = tmpIter.next();
-                values[i] = TypesHelper.parse(tmpNext.getKey(), tmpNext.getValue());
-            } else {
-                values[i] = obj;
-            }
-        }
-        return new Document("$multiply", Arrays.asList(values));
-    }
+
 }
