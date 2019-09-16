@@ -3,9 +3,9 @@
  */
 package com.mongodb.pipeline.transfer.helper;
 
-import com.mongodb.pipeline.transfer.constants.MongoConstants;
-import com.mongodb.pipeline.transfer.operation.ExpOperation;
-import com.mongodb.pipeline.transfer.operation.StringOperation;
+import com.mongodb.pipeline.transfer.constants.OperatorExpressionsConstants;
+import com.mongodb.pipeline.transfer.parse.operation.StringOperation;
+import com.mongodb.pipeline.transfer.parse.operation.ExpOperation;
 import org.bson.Document;
 
 /**
@@ -17,7 +17,10 @@ import org.bson.Document;
  * lilei        2019年7月2日           Create this file
  * </pre>
  */
-public class FunctionHelper {
+public final class FunctionHelper {
+    private FunctionHelper() {
+    }
+
     /**
      * <p>解析函数，根据函数类型，选择对应的解析方式</p>
      *
@@ -28,7 +31,7 @@ public class FunctionHelper {
     public static Document parse(String operate, String value) {
         Document operation = null;
         switch (operate) {
-            case MongoConstants.add:
+            case OperatorExpressionsConstants.ADD:
                 operation = ExpOperation.add(value);
                 break;
             case "$multiply":

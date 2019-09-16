@@ -5,7 +5,7 @@ package com.mongodb.pipeline.transfer.helper;
 
 import org.bson.BsonNumber;
 
-import com.mongodb.pipeline.transfer.operation.NumericOperation;
+import com.mongodb.pipeline.transfer.parse.operation.NumericOperation;
 
 /**
  * 值类型操作符转换
@@ -16,10 +16,13 @@ import com.mongodb.pipeline.transfer.operation.NumericOperation;
  * lilei        2019年6月12日           Create this file
  * </pre>
  */
-public class TypesHelper {
+public final class TypesHelper {
+    private TypesHelper() {
+    }
+
     /**
-     * 
      * <p>Description TODO</p>
+     *
      * @param operate
      * @param value
      * @return
@@ -27,11 +30,11 @@ public class TypesHelper {
     public static BsonNumber parse(String operate, Object value) {
         BsonNumber operation = null;
         switch (operate) {
-        case "$numberLong":
-            operation = NumericOperation.numberLong(value);
-            break;
-        default:
-            throw new RuntimeException("dont't support this operation!" + operation);
+            case "$numberLong":
+                operation = NumericOperation.numberLong(value);
+                break;
+            default:
+                throw new RuntimeException("dont't support this operation!" + operation);
         }
         return operation;
     }

@@ -1,23 +1,18 @@
 /**
  * 版权所有 (c) 2018，中金支付有限公司  
  */
-package com.mongodb.pipeline.transfer.parse;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.bson.Document;
-import org.bson.conversions.Bson;
+package com.mongodb.pipeline.transfer.parse.stage;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Variable;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import java.util.*;
 
 /**
  * lookup 聚合管道解析
@@ -28,9 +23,13 @@ import com.mongodb.pipeline.transfer.util.JSONUtils;
  * lilei        2019年6月12日           Create this file
  * </pre>
  */
-public class LookupParse {
+public final class LookupParse {
+    private LookupParse() {
+    }
+
     /**
      * <p>Lookup Match 生成</p>
+     *
      * @param json
      * @return
      */
@@ -63,6 +62,7 @@ public class LookupParse {
 
     /**
      * <p>解析Variables部分</p>
+     *
      * @param json
      * @return
      */
@@ -79,6 +79,7 @@ public class LookupParse {
     /**
      * <p>解析pipline部分</p>
      * Note：仅支持$match
+     *
      * @param json
      * @return
      */

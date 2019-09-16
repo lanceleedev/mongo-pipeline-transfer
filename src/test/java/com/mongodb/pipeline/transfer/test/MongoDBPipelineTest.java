@@ -3,16 +3,16 @@
  */
 package com.mongodb.pipeline.transfer.test;
 
-import java.util.List;
-
-import org.bson.Document;
-import org.bson.conversions.Bson;
-
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.pipeline.transfer.util.MongoDBPipelineUtil;
+import com.mongodb.pipeline.transfer.MongoDBPipelineUtil;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.junit.Test;
+
+import java.util.List;
 
 /**
  * TODO
@@ -25,15 +25,11 @@ import com.mongodb.pipeline.transfer.util.MongoDBPipelineUtil;
  */
 public class MongoDBPipelineTest {
 
-    public static void main(String[] args) {
-
-        codeTest();
-    }
-
+    @Test
     public static void codeTest() {
         MongoClient mongoClient = new MongoClient("172.31.1.41", 27017);
         MongoDatabase database = mongoClient.getDatabase("mongodb4datacenter");
-        testCollectedTx(database);
+        testYH_Gathering(database);
         mongoClient.close();
     }
 

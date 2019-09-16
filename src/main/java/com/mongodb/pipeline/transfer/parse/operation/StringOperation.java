@@ -1,18 +1,17 @@
 /**
  * 版权所有 (c) 2018，中金支付有限公司  
  */
-package com.mongodb.pipeline.transfer.operation;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.bson.Document;
+package com.mongodb.pipeline.transfer.parse.operation;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.pipeline.transfer.helper.FunctionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
+import org.bson.Document;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * 字符串操作符解析
@@ -23,12 +22,16 @@ import com.mongodb.pipeline.transfer.util.JSONUtils;
  * lilei        2019年6月12日           Create this file
  * </pre>
  */
-public class StringOperation {
+public final class StringOperation {
+    private StringOperation() {
+    }
+
     /**
      * <p>substr操作符解析</p>
-     * 
+     * <p>
      * { $substr: [ string, start, length ] }
      * { $substr: [ { $ifNull: [ string, "XXXXXXXXX" ] }, start, length ] }
+     *
      * @param json
      * @return
      */

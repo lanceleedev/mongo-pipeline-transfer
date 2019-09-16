@@ -1,21 +1,20 @@
 /**
  * 版权所有 (c) 2018，中金支付有限公司  
  */
-package com.mongodb.pipeline.transfer.parse;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.bson.Document;
-import org.bson.conversions.Bson;
+package com.mongodb.pipeline.transfer.parse.stage;
 
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.BsonField;
 import com.mongodb.pipeline.transfer.helper.FunctionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * group 聚合管道解析
@@ -26,10 +25,14 @@ import com.mongodb.pipeline.transfer.util.JSONUtils;
  * lilei        2019年6月12日           Create this file
  * </pre>
  */
-public class GroupParse {
+public final class GroupParse {
+    private GroupParse() {
+    }
+
     /**
      * <p>生成group Bson</p>
      * Note：目前支持的聚合操作符：$cond、$ifNull、$substr
+     *
      * @param json
      * @return
      */
@@ -57,6 +60,7 @@ public class GroupParse {
 
     /**
      * <p>group _id部分解析</p>
+     *
      * @param json
      * @return
      */
@@ -81,13 +85,12 @@ public class GroupParse {
     }
 
     /**
-     * 
      * <p>group 表达式部分解析</p>
      * Note：操作符仅支持：$sum
      * eg：
      * money: {$sum: {$cond: {if: {$eq: ["$status", 20]}, then: "$money", else: 0}}}
      * money: {$sum: "$money"}
-     * 
+     *
      * @param field
      * @param value
      * @return
@@ -98,17 +101,17 @@ public class GroupParse {
         Map.Entry<String, ?> next = iterator.next();
         Object val = next.getValue();
         switch (next.getKey()) {
-        case "$sum":
-            if (val.toString().contains("$cond")) {
-                Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(val.toString().trim());
-                Map.Entry<String, ?> tmpNext = tmpIter.next();
-                accumulator = Accumulators.sum(field, FunctionHelper.parse("$cond", tmpNext.getValue().toString().trim()));
-            } else {
-                accumulator = Accumulators.sum(field, val);
-            }
-            break;
-        default:
-            break;
+            case "$sum":
+                if (val.toString().contains("$cond")) {
+                    Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(val.toString().trim());
+                    Map.Entry<String, ?> tmpNext = tmpIter.next();
+                    accumulator = Accumulators.sum(field, FunctionHelper.parse("$cond", tmpNext.getValue().toString().trim()));
+                } else {
+                    accumulator = Accumulators.sum(field, val);
+                }
+                break;
+            default:
+                break;
         }
         return accumulator;
     }

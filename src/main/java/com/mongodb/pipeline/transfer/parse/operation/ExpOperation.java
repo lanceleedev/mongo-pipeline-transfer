@@ -1,11 +1,8 @@
-/**
- * 版权所有 (c) 2018，中金支付有限公司  
- */
-package com.mongodb.pipeline.transfer.operation;
+package com.mongodb.pipeline.transfer.parse.operation;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.mongodb.pipeline.transfer.constants.MongoConstants;
+import com.mongodb.pipeline.transfer.constants.OperatorExpressionsConstants;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
@@ -20,24 +17,28 @@ import java.util.Map;
  * Modify Information:
  * Author       Date          Description
  * ============ ============= ============================
- * lilei        2019年6月12日           Create this file
+ * lilei        2019年6月12日  Create this file
  * </pre>
  */
-public class ExpOperation {
+public final class ExpOperation {
+    private ExpOperation() {
+    }
 
     /**
      * add操作符转换
      * { $add: [ <expression1>, <expression2>, ... ] }
+     *
      * @param json
      * @return
      */
-    public static Document add(String json){
-        return new Document(MongoConstants.add, Arrays.asList(getArrayExpression(json)));
+    public static Document add(String json) {
+        return new Document(OperatorExpressionsConstants.ADD, Arrays.asList(getArrayExpression(json)));
     }
 
     /**
      * multiply操作符转换<br>
      * { $multiply: [ <expression1>, <expression2>, ... ] }
+     *
      * @param json
      * @return
      */
@@ -47,6 +48,7 @@ public class ExpOperation {
 
     /**
      * 数组类型表达式获取
+     *
      * @param json
      * @return
      */
@@ -130,6 +132,4 @@ public class ExpOperation {
         }
         return new Document("$ifNull", Arrays.asList(field, value));
     }
-
-
 }

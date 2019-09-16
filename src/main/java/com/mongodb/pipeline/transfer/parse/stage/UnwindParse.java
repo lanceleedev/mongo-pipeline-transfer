@@ -1,7 +1,7 @@
 /**
  * 版权所有 (c) 2018，中金支付有限公司  
  */
-package com.mongodb.pipeline.transfer.parse;
+package com.mongodb.pipeline.transfer.parse.stage;
 
 import org.bson.conversions.Bson;
 
@@ -18,9 +18,13 @@ import com.mongodb.client.model.UnwindOptions;
  * lilei        2019年6月12日           Create this file
  * </pre>
  */
-public class UnwindParse {
+public final class UnwindParse {
+    private UnwindParse() {
+    }
+
     /**
      * <p>生成 Unwind Bson</p>
+     *
      * @param json
      * @return
      */

@@ -1,17 +1,16 @@
 /**
  * 版权所有 (c) 2018，中金支付有限公司  
  */
-package com.mongodb.pipeline.transfer.parse;
-
-import java.util.Iterator;
-import java.util.Map;
-
-import org.bson.Document;
-import org.bson.conversions.Bson;
+package com.mongodb.pipeline.transfer.parse.stage;
 
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.pipeline.transfer.helper.FunctionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Project 聚合管道解析
@@ -22,9 +21,14 @@ import com.mongodb.pipeline.transfer.util.JSONUtils;
  * lilei        2019年6月12日           Create this file
  * </pre>
  */
-public class ProjectParse {
+public final class ProjectParse {
+
+    private ProjectParse() {
+    }
+
     /**
      * <p>生成 Project Bson</p>
+     *
      * @param json
      * @return
      */
