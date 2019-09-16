@@ -9,7 +9,7 @@ package com.mongodb.pipeline.transfer.constants;
  * lilei        2019/9/16     Create this file
  * </pre>
  */
-public final class OperatorExpressionsConstants {
+public final class OperatorExpressionConstants {
 
     /**
      * Arithmetic Expression Operators, 16
@@ -193,6 +193,6 @@ public final class OperatorExpressionsConstants {
      */
     public static final String LET = "$let";
 
-    private OperatorExpressionsConstants() {
+    private OperatorExpressionConstants() {
     }
 }

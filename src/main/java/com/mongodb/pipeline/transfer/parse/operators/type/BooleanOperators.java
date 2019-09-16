@@ -1,4 +1,4 @@
-package com.mongodb.pipeline.transfer.parse.stage;
+package com.mongodb.pipeline.transfer.parse.operators.type;
 
 /**
  * <pre>
@@ -8,10 +8,8 @@ package com.mongodb.pipeline.transfer.parse.stage;
  * lilei        2019/9/16     Create this file
  * </pre>
  */
-public final class AddFieldsParse {
-    private AddFieldsParse(){
+public final class BooleanOperators {
+    private BooleanOperators() {
     }
-
-
 
 }

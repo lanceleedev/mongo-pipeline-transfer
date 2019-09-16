@@ -7,7 +7,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.pipeline.transfer.MongoDBPipelineUtil;
+import com.mongodb.pipeline.transfer.MongoDBPipelineUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class MongoDBPipelineTest {
 
     public static void testHJ_CollectedTx(MongoDatabase database) {
         MongoCollection<Document> collection = database.getCollection("HJ_CollectedTx");
-        List<Bson> bsonList = MongoDBPipelineUtil.aggregateJson2BsonList(getHJ_CollectedTxAggregate());
+        List<Bson> bsonList = MongoDBPipelineUtils.aggregateJson2BsonList(getHJ_CollectedTxAggregate());
         for (Bson bson : bsonList) {
             System.out.println(bson);
         }
@@ -44,7 +44,7 @@ public class MongoDBPipelineTest {
     }
 
     public static void testCollectedTx(MongoDatabase database) {
-        List<Bson> bsonList = MongoDBPipelineUtil.aggregateJson2BsonList(getCollectedTx());
+        List<Bson> bsonList = MongoDBPipelineUtils.aggregateJson2BsonList(getCollectedTx());
         for (Bson bson : bsonList) {
             System.out.println(bson);
         }
@@ -52,7 +52,7 @@ public class MongoDBPipelineTest {
     }
 
     public static void testYH_Gathering(MongoDatabase database) {
-        List<Bson> bsonList = MongoDBPipelineUtil.aggregateJson2BsonList(getYH_GatheringAggregate());
+        List<Bson> bsonList = MongoDBPipelineUtils.aggregateJson2BsonList(getYH_GatheringAggregate());
         for (Bson bson : bsonList) {
             System.out.println(bson);
         }

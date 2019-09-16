@@ -1,6 +1,3 @@
-/**
- * 版权所有 (c) 2018，中金支付有限公司  
- */
 package com.mongodb.pipeline.transfer;
 
 import com.alibaba.fastjson.JSONArray;
@@ -19,10 +16,12 @@ import java.util.Map;
  * Modify Information:
  * Author       Date          Description
  * ============ ============= ============================
- * lilei        2019年6月12日           Create this file
+ * lilei        2019年6月12日  Create this file
  * </pre>
  */
-public class MongoDBPipelineUtil {
+public final class MongoDBPipelineUtils {
+    private MongoDBPipelineUtils() {
+    }
 
     /**
      * <p>将聚合JSON字符串转换为MongoDB Client需要的Bson格式</p>

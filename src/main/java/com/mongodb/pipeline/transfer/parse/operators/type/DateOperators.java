@@ -1,6 +1,7 @@
-package com.mongodb.pipeline.transfer.parse.stage;
+package com.mongodb.pipeline.transfer.parse.operators.type;
 
 /**
+ * 日期操作
  * <pre>
  * Modify Information:
  * Author       Date          Description
@@ -8,10 +9,8 @@ package com.mongodb.pipeline.transfer.parse.stage;
  * lilei        2019/9/16     Create this file
  * </pre>
  */
-public final class AddFieldsParse {
-    private AddFieldsParse(){
+public final class DateOperators {
+    private DateOperators() {
     }
-
-
-
+    
 }

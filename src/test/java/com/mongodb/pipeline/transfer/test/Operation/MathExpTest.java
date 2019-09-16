@@ -1,6 +1,6 @@
 package com.mongodb.pipeline.transfer.test.Operation;
 
-import com.mongodb.pipeline.transfer.helper.FunctionHelper;
+import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
 import org.junit.Test;
@@ -42,6 +42,6 @@ public class MathExpTest {
     private Document FunctionCall(String json) {
         Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(json.trim());
         Map.Entry<String, ?> tmpNext = tmpIter.next();
-        return FunctionHelper.parse(tmpNext.getKey(), tmpNext.getValue().toString().trim());
+        return ExpressionHelper.parse(tmpNext.getKey(), tmpNext.getValue().toString().trim());
     }
 }

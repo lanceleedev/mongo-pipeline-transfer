@@ -1,10 +1,7 @@
-/**
- * 版权所有 (c) 2018，中金支付有限公司  
- */
 package com.mongodb.pipeline.transfer.parse.stage;
 
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.pipeline.transfer.helper.FunctionHelper;
+import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -46,7 +43,7 @@ public final class ProjectParse {
             if (value.toString().contains("{")) {
                 Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(value.toString().trim());
                 Map.Entry<String, ?> tmpNext = tmpIter.next();
-                project.append(field, FunctionHelper.parse(tmpNext.getKey(), tmpNext.getValue().toString().trim()));
+                project.append(field, ExpressionHelper.parse(tmpNext.getKey(), tmpNext.getValue().toString().trim()));
             } else {
                 project.append(field, value);
             }

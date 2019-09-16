@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.conversions.Bson;
 
@@ -91,45 +92,13 @@ public final class MatchParse {
                 Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(valueStr);
                 while (iterator.hasNext()) {
                     Map.Entry<String, ?> next = iterator.next();
-                    String tmp1 = next.getKey().toString().trim();
+                    String tmp1 = next.getKey().trim();
                     Object tmp2 = next.getValue();
-                    filters.add(getFilter(key, tmp2, tmp1));
+                    filters.add(ExpressionHelper.getComparison(tmp1, key, tmp2));
                 }
             } else {
                 filters.add(Filters.eq(key, value));
             }
         }
-    }
-
-    /**
-     * <p>Filter 部分解析</p>
-     *
-     * @param key       字段
-     * @param value     字段值
-     * @param operation 操作
-     * @return
-     */
-    private static Bson getFilter(String key, Object value, String operation) {
-        Bson bson;
-        switch (operation) {
-            case "$eq":
-                bson = Filters.eq(key, value);
-                break;
-            case "$gt":
-                bson = Filters.gt(key, value);
-                break;
-            case "$gte":
-                bson = Filters.gte(key, value);
-                break;
-            case "$lt":
-                bson = Filters.lt(key, value);
-                break;
-            case "$lte":
-                bson = Filters.lte(key, value);
-                break;
-            default:
-                throw new RuntimeException("dont't support this operation!" + operation);
-        }
-        return bson;
     }
 }

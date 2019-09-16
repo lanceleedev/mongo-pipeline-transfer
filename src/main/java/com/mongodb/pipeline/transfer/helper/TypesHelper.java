@@ -1,19 +1,18 @@
-/**
- * 版权所有 (c) 2018，中金支付有限公司  
- */
 package com.mongodb.pipeline.transfer.helper;
 
 import org.bson.BsonNumber;
 
-import com.mongodb.pipeline.transfer.parse.operation.NumericOperation;
+import com.mongodb.pipeline.transfer.parse.operators.type.NumericOperators;
 
 /**
- * 值类型操作符转换
+ * 数据类型操作符转换.
+ * 包括：基本数据类型、字符串、时间、对象、数组
+ *
  * <pre>
  * Modify Information:
  * Author       Date          Description
  * ============ ============= ============================
- * lilei        2019年6月12日           Create this file
+ * lilei        2019年6月12日  Create this file
  * </pre>
  */
 public final class TypesHelper {
@@ -27,14 +26,14 @@ public final class TypesHelper {
      * @param value
      * @return
      */
-    public static BsonNumber parse(String operate, Object value) {
+    public static BsonNumber numericParse(String operate, Object value) {
         BsonNumber operation = null;
         switch (operate) {
             case "$numberLong":
-                operation = NumericOperation.numberLong(value);
+                operation = NumericOperators.numberLong(value);
                 break;
             default:
-                throw new RuntimeException("dont't support this operation!" + operation);
+                throw new RuntimeException("dont't support this operators!" + operation);
         }
         return operation;
     }

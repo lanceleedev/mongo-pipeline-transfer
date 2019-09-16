@@ -1,12 +1,10 @@
-/**
- * 版权所有 (c) 2018，中金支付有限公司  
- */
 package com.mongodb.pipeline.transfer.parse.stage;
 
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.BsonField;
-import com.mongodb.pipeline.transfer.helper.FunctionHelper;
+import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
+import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -31,7 +29,6 @@ public final class GroupParse {
 
     /**
      * <p>生成group Bson</p>
-     * Note：目前支持的聚合操作符：$cond、$ifNull、$substr
      *
      * @param json
      * @return
@@ -70,13 +67,13 @@ public final class GroupParse {
         Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(json);
         while (iterator.hasNext()) {
             Map.Entry<String, ?> next = iterator.next();
-            String field = next.getKey().toString().trim();
+            String field = next.getKey().trim();
             Object value = next.getValue();
             String valStr = value.toString().trim();
             if (valStr.contains("{")) {
                 Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(valStr);
                 Map.Entry<String, ?> tmpNext = tmpIter.next();
-                fields.append(field, FunctionHelper.parse(tmpNext.getKey(), tmpNext.getValue().toString().trim()));
+                fields.append(field, ExpressionHelper.parse(tmpNext.getKey(), tmpNext.getValue().toString().trim()));
             } else {
                 fields.append(field, value);
             }
@@ -101,11 +98,11 @@ public final class GroupParse {
         Map.Entry<String, ?> next = iterator.next();
         Object val = next.getValue();
         switch (next.getKey()) {
-            case "$sum":
+            case OperatorExpressionConstants.SUM:
                 if (val.toString().contains("$cond")) {
                     Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(val.toString().trim());
                     Map.Entry<String, ?> tmpNext = tmpIter.next();
-                    accumulator = Accumulators.sum(field, FunctionHelper.parse("$cond", tmpNext.getValue().toString().trim()));
+                    accumulator = Accumulators.sum(field, ExpressionHelper.parse("$cond", tmpNext.getValue().toString().trim()));
                 } else {
                     accumulator = Accumulators.sum(field, val);
                 }

@@ -1,7 +1,4 @@
-/**
- * 版权所有 (c) 2018，中金支付有限公司  
- */
-package com.mongodb.pipeline.transfer.parse.operation;
+package com.mongodb.pipeline.transfer.parse.operators.type;
 
 import org.bson.BsonInt64;
 import org.bson.BsonNumber;
@@ -16,8 +13,8 @@ import org.bson.BsonNumber;
  * lilei        2019年6月12日           Create this file
  * </pre>
  */
-public final class NumericOperation {
-    private NumericOperation() {
+public final class NumericOperators {
+    private NumericOperators() {
     }
 
     /**

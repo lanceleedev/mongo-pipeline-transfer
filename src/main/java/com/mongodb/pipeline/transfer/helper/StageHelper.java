@@ -27,8 +27,8 @@ public final class StageHelper {
     public static Bson parse(String stage, String value) {
         Bson bson = null;
         switch (stage) {
-            case StagesConstants.MATCH:
-                bson = MatchParse.process(value);
+            case StagesConstants.ADD_FIELDS:
+                bson = ProjectParse.process(value);
                 break;
             case StagesConstants.GROUP:
                 bson = GroupParse.process(value);
@@ -36,14 +36,14 @@ public final class StageHelper {
             case StagesConstants.LOOKUP:
                 bson = LookupParse.process(value);
                 break;
-            case StagesConstants.UNWIND:
-                bson = UnwindParse.process(value);
+            case StagesConstants.MATCH:
+                bson = MatchParse.process(value);
                 break;
             case StagesConstants.PROJECT:
                 bson = ProjectParse.process(value);
                 break;
-            case StagesConstants.ADD_FIELDS:
-                bson = ProjectParse.process(value);
+            case StagesConstants.UNWIND:
+                bson = UnwindParse.process(value);
                 break;
             default:
                 throw new RuntimeException("Dont't support this pipline stage!" + stage);

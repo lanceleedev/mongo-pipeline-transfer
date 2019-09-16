@@ -1,8 +1,8 @@
-package com.mongodb.pipeline.transfer.parse.operation;
+package com.mongodb.pipeline.transfer.parse.operators;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.mongodb.pipeline.transfer.constants.OperatorExpressionsConstants;
+import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
@@ -20,8 +20,8 @@ import java.util.Map;
  * lilei        2019年6月12日  Create this file
  * </pre>
  */
-public final class ExpOperation {
-    private ExpOperation() {
+public final class ArithmeticExpressionOperators {
+    private ArithmeticExpressionOperators() {
     }
 
     /**
@@ -32,7 +32,7 @@ public final class ExpOperation {
      * @return
      */
     public static Document add(String json) {
-        return new Document(OperatorExpressionsConstants.ADD, Arrays.asList(getArrayExpression(json)));
+        return new Document(OperatorExpressionConstants.ADD, Arrays.asList(getArrayExpression(json)));
     }
 
     /**
@@ -43,7 +43,7 @@ public final class ExpOperation {
      * @return
      */
     public static Document multiply(String json) {
-        return new Document("$multiply", Arrays.asList(getArrayExpression(json)));
+        return new Document(OperatorExpressionConstants.MULTIPLY, Arrays.asList(getArrayExpression(json)));
     }
 
     /**
@@ -60,7 +60,7 @@ public final class ExpOperation {
             if (obj.toString().startsWith("{")) {
                 Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(obj.toString().trim());
                 Map.Entry<String, ?> tmpNext = tmpIter.next();
-                values[i] = TypesHelper.parse(tmpNext.getKey(), tmpNext.getValue());
+                values[i] = TypesHelper.numericParse(tmpNext.getKey(), tmpNext.getValue());
             } else {
                 values[i] = obj;
             }
@@ -81,11 +81,11 @@ public final class ExpOperation {
         Object ELSE = null;
         while (iterator.hasNext()) {
             Map.Entry<String, ?> next = iterator.next();
-            String key = next.getKey().toString().trim();
+            String key = next.getKey().trim();
             Object val = next.getValue();
-            if (key.equals("if")) {
+            if ("if".equals(key)) {
                 IF = val.toString().trim();
-            } else if (key.equals("then")) {
+            } else if ("then".equals(key)) {
                 THEN = val;
             } else {
                 ELSE = val;
@@ -94,7 +94,7 @@ public final class ExpOperation {
 
         Iterator<? extends Map.Entry<String, ?>> ifIterator = JSONUtils.getJSONObjectIterator(IF);
         Map.Entry<String, ?> next = ifIterator.next();
-        String operation = next.getKey().toString().trim();
+        String operation = next.getKey().trim();
         JSONArray params = JSONObject.parseArray(next.getValue().toString());
 
         Document cond = new Document();

@@ -1,6 +1,3 @@
-/**
- * 版权所有 (c) 2018，中金支付有限公司  
- */
 package com.mongodb.pipeline.transfer.parse.stage;
 
 import org.bson.conversions.Bson;
