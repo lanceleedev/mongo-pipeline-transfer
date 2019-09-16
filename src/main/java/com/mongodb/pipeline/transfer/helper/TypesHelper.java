@@ -1,8 +1,14 @@
 package com.mongodb.pipeline.transfer.helper;
 
+import com.mongodb.client.model.Field;
+import com.mongodb.pipeline.transfer.constants.Constants;
 import org.bson.BsonNumber;
 
-import com.mongodb.pipeline.transfer.parse.operators.type.NumericOperators;
+import com.mongodb.pipeline.transfer.parse.operator.type.NumericOperators;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 数据类型操作符转换.
@@ -16,11 +22,32 @@ import com.mongodb.pipeline.transfer.parse.operators.type.NumericOperators;
  * </pre>
  */
 public final class TypesHelper {
+    private static final String DATE = "Date";
+
+
     private TypesHelper() {
     }
 
     /**
-     * <p>Description TODO</p>
+     * 解析值类型.
+     * 根据其中关键字判断
+     *
+     * @param value 值
+     * @return
+     */
+    public static Field parse(String key, String value) {
+
+        if (-1 != value.indexOf(DATE)) {
+            return new Field(key, NumericOperators.numberLong(value));
+        }
+        if (-1 != value.indexOf(Constants.NUMBER_LONG)) {
+            return new Field(key, NumericOperators.numberLong(value));
+        }
+        return new Field(key, value);
+    }
+
+    /**
+     * <p>数值解析</p>
      *
      * @param operate
      * @param value
@@ -33,7 +60,7 @@ public final class TypesHelper {
                 operation = NumericOperators.numberLong(value);
                 break;
             default:
-                throw new RuntimeException("dont't support this operators!" + operation);
+                throw new RuntimeException("dont't support this operator!" + operation);
         }
         return operation;
     }

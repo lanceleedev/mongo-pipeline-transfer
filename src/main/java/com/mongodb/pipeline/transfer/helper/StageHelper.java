@@ -28,7 +28,7 @@ public final class StageHelper {
         Bson bson = null;
         switch (stage) {
             case StagesConstants.ADD_FIELDS:
-                bson = ProjectParse.process(value);
+                bson = AddFieldsParse.process(value);
                 break;
             case StagesConstants.GROUP:
                 bson = GroupParse.process(value);

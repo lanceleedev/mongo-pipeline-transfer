@@ -3,6 +3,7 @@ package com.mongodb.pipeline.transfer;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.pipeline.transfer.helper.StageHelper;
+import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
@@ -30,7 +31,12 @@ public final class MongoDBPipelineUtils {
      * @param json 聚合JSON字符串
      */
     public static List<Bson> aggregateJson2BsonList(String json) {
-        JSONArray array = JSONObject.parseArray(json);
+        /**
+         * 特殊处理
+         */
+        String tmp = JSONUtils.fastjsonParsePreDeal(json);
+
+        JSONArray array = JSONObject.parseArray(tmp);
         List<Bson> bsonList = new ArrayList<>(array.size());
 
         Iterator<? extends Map.Entry<String, ?>> iterator;

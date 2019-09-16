@@ -1,5 +1,6 @@
-package com.mongodb.pipeline.transfer.parse.operators.type;
+package com.mongodb.pipeline.transfer.parse.operator.type;
 
+import com.mongodb.pipeline.transfer.constants.Constants;
 import org.bson.BsonInt64;
 import org.bson.BsonNumber;
 
@@ -18,8 +19,7 @@ public final class NumericOperators {
     }
 
     /**
-     * <p>numberLong操作符转换</p>
-     * <p>
+     * numberLong操作符转换<br>
      * { "$numberLong": "1" }
      *
      * @param value
@@ -27,5 +27,17 @@ public final class NumericOperators {
      */
     public static BsonNumber numberLong(Object value) {
         return new BsonInt64(Long.parseLong(value.toString()));
+    }
+
+    /**
+     * numberLong操作符转换.<br>
+     * NumberLong('0')
+     *
+     * @param value
+     * @return
+     */
+    public static BsonNumber numberLong(String value) {
+        String tmp = value.split(Constants.APOSTROPHE)[1].trim();
+        return new BsonInt64(Long.parseLong(tmp));
     }
 }

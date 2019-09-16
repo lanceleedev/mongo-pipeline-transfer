@@ -1,4 +1,4 @@
-package com.mongodb.pipeline.transfer.test.Operation;
+package com.mongodb.pipeline.transfer.test.operator;
 
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;

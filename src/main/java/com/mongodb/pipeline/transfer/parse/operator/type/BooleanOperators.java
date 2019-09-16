@@ -1,4 +1,4 @@
-package com.mongodb.pipeline.transfer.parse.operators.type;
+package com.mongodb.pipeline.transfer.parse.operator.type;
 
 /**
  * <pre>

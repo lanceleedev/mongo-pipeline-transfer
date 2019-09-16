@@ -2,8 +2,8 @@ package com.mongodb.pipeline.transfer.helper;
 
 import com.mongodb.client.model.Filters;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
-import com.mongodb.pipeline.transfer.parse.operators.type.StringOperators;
-import com.mongodb.pipeline.transfer.parse.operators.ArithmeticExpressionOperators;
+import com.mongodb.pipeline.transfer.parse.operator.type.StringOperators;
+import com.mongodb.pipeline.transfer.parse.operator.ArithmeticExpressionOperators;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -21,6 +21,18 @@ public final class ExpressionHelper {
     }
 
     /**
+     *
+     * @param value
+     * @return
+     */
+    public static Document parse(String value) {
+        Document operation = null;
+
+
+        return operation;
+    }
+
+    /**
      * <p>解析函数，根据函数类型，选择对应的解析方式</p>
      *
      * @param operate 函数
@@ -32,6 +44,9 @@ public final class ExpressionHelper {
         switch (operate) {
             case OperatorExpressionConstants.ADD:
                 operation = ArithmeticExpressionOperators.add(value);
+                break;
+            case OperatorExpressionConstants.SUBTRACT:
+                operation = StringOperators.substr(value);
                 break;
             case "$multiply":
                 operation = ArithmeticExpressionOperators.multiply(value);
@@ -46,7 +61,7 @@ public final class ExpressionHelper {
                 operation = ArithmeticExpressionOperators.ifNull(value);
                 break;
             default:
-                throw new RuntimeException("dont't support this operators!" + operation);
+                throw new RuntimeException("dont't support this operator!" + operation);
         }
         return operation;
     }
@@ -78,7 +93,7 @@ public final class ExpressionHelper {
                 bson = Filters.lte(key, value);
                 break;
             default:
-                throw new RuntimeException("dont't support this operators!" + operation);
+                throw new RuntimeException("dont't support this operator!" + operation);
         }
         return bson;
     }

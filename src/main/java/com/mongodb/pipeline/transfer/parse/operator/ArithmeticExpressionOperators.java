@@ -1,4 +1,4 @@
-package com.mongodb.pipeline.transfer.parse.operators;
+package com.mongodb.pipeline.transfer.parse.operator;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -44,6 +44,25 @@ public final class ArithmeticExpressionOperators {
      */
     public static Document multiply(String json) {
         return new Document(OperatorExpressionConstants.MULTIPLY, Arrays.asList(getArrayExpression(json)));
+    }
+
+    public static Document subtract(String json) {
+        JSONArray array = JSONObject.parseArray(json);
+        Object[] values = new Object[array.size()];
+        for (int i = 0, len = array.size(); i < len; i++) {
+            Object obj = array.get(i);
+            if (obj.toString().startsWith("{")) {
+                Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(obj.toString().trim());
+                Map.Entry<String, ?> tmpNext = tmpIter.next();
+                values[i] = TypesHelper.numericParse(tmpNext.getKey(), tmpNext.getValue());
+            } else {
+                values[i] = obj;
+            }
+        }
+
+
+
+        return new Document(OperatorExpressionConstants.SUBTRACT, Arrays.asList(getArrayExpression(json)));
     }
 
     /**
