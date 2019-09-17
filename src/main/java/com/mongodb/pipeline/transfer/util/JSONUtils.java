@@ -20,7 +20,7 @@ public final class JSONUtils {
     /**
      * 处理特殊类型时，字符串在模式字符串后查找的长度
      */
-    private static final int len = 30;
+    private static final int LEN = 30;
 
     private JSONUtils() {
     }
@@ -71,7 +71,7 @@ public final class JSONUtils {
                 end = start;
             } else {
                 tmp.append("\'");
-                for (int i = start + 1; i < start + 1 + len; i++) {
+                for (int i = start + 1; i < start + 1 + LEN; i++) {
                     if (')' == json.charAt(i)) {
                         end = i;
                         break;
