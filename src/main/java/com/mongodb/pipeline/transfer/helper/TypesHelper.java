@@ -7,6 +7,7 @@ import org.bson.BsonNumber;
 import com.mongodb.pipeline.transfer.parse.operator.type.NumericOperators;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public final class TypesHelper {
     public static Object parse(String value) {
 
         if (-1 != value.indexOf(DATE)) {
-            return NumericOperators.numberLong(value);
+            return new Date();
         }
         if (-1 != value.indexOf(Constants.NUMBER_LONG)) {
             return NumericOperators.numberLong(value);

@@ -113,42 +113,45 @@ public final class ArithmeticExpressionOperators {
             if (val.startsWith(Constants.LBRACE)) {
                 tmp = ExpressionHelper.parse(val);
             } else {
-                /**
-                 * 值判断
-                 */
                 tmp = TypesHelper.parse(val);
             }
-            if ("if".equals(key)) {
+            if ("if" .equals(key)) {
                 condIf = tmp;
-            } else if ("then".equals(key)) {
+            } else if ("then" .equals(key)) {
                 condThen = tmp;
             } else {
                 condElse = tmp;
             }
         }
 
-        return new Document("$cond", Arrays.asList(condIf, condThen, condElse));
+        return new Document(OperatorExpressionConstants.COND, Arrays.asList(condIf, condThen, condElse));
     }
 
     /**
-     * <p>ifNull操作符解析</p>
-     * Sample:<br>
-     * ["$money",""]
+     * ifNull操作符解析
+     * { $ifNull: [ <expression>, <replacement-expression-if-null> ] }
      *
      * @param json
      * @return
      */
     public static Document ifNull(String json) {
         JSONArray array = JSONObject.parseArray(json);
-        String field = null;
-        Object value = null;
-        for (Object obj : array) {
-            if (obj.toString().startsWith("$")) {
-                field = obj.toString().trim();
-            } else {
-                value = obj;
-            }
+        String str1 = array.get(0).toString().trim();
+        String str2 = array.get(1).toString().trim();
+
+        Object expression = null;
+        if (str1.startsWith("$")) {
+            expression = str1;
+        }else{
+            expression = TypesHelper.parse(str1);
         }
-        return new Document("$ifNull", Arrays.asList(field, value));
+
+        Object replacement = null;
+        if (str2.startsWith("$")) {
+            replacement = str2;
+        }else{
+            replacement = TypesHelper.parse(str2);
+        }
+        return new Document("$ifNull", Arrays.asList(expression, replacement));
     }
 }

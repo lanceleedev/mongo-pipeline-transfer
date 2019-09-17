@@ -62,7 +62,7 @@
 		 SplitType: "$SplitType",
 		 Income: { $ifNull: [ "$fee.Income", "$Income" ] },
 		 Deduction: "$Deduction",
-		 IncomeStatus: {$cond: {if: {$gte: ["$fee.Income", 0]}, then: "$fee.IncomeStatus", else: 40}},
+		 IncomeStatus: {$cond: {if: {$gte: ["$fee.Income", NumberLong("0")]}, then: "$fee.IncomeStatus", else: NumberLong("40")}},
 		 ChannelFee: "$ChannelFee",
 		 ChannelFeeStatus: "$ChannelFeeStatus",
 		 BankChannelFee: "$channel.BankChannelFee",
@@ -70,12 +70,12 @@
 	}
 },{
   $addFields: {
-		 Profit: {$subtract: [ {$subtract: [ "$Income", {$ifNull: [ "$ChannelFee", 0 ]} ]}, {$ifNull: [ "$BankChannelFee", 0 ]}]},
-		 ProfitStatus: {$cond: {if: {$or: [{$eq: ["$IncomeStatus", 30]}, {$eq: ["$IncomeStatus", 40]}, {$eq: ["$ChannelFeeStatus", 30]}, {$eq: ["$BankChannelFeeStatus", 30]}]}, then: 30, else: {$cond: {if: {$and: [{$eq: ["$IncomeStatus", 10]}, {$eq: ["$ChannelFeeStatus", 10]}, {$eq: ["$BankChannelFeeStatus", 10]}]}, then: 10, else: 20}}}}
+      Profit: {$subtract: [ {$subtract: [ "$Income", {$ifNull: [ "$ChannelFee", NumberLong("0") ]} ]}, {$ifNull: [ "$BankChannelFee", NumberLong("0") ]}]},
+		 ProfitStatus: {$cond: {if: {$or: [{$eq: ["$IncomeStatus", NumberLong("30")]}, {$eq: ["$IncomeStatus", NumberLong("40")]}, {$eq: ["$ChannelFeeStatus", NumberLong("30")]}, {$eq: ["$BankChannelFeeStatus", NumberLong("30")]}]}, then: NumberLong("30"), else: {$cond: {if: {$and: [{$eq: ["$IncomeStatus", NumberLong("10")]}, {$eq: ["$ChannelFeeStatus", NumberLong("10")]}, {$eq: ["$BankChannelFeeStatus", NumberLong("10")]}]}, then: NumberLong("10"), else: NumberLong("20")}}}}
 	}
 },{
   $addFields: {
-		 ProfitInversion: {$cond: {if: {$lt: ["$Profit", 0]}, then: 1, else: 0}},
+		 ProfitInversion: {$cond: {if: {$lt: ["$Profit", NumberLong("0")]}, then: NumberLong("1"), else: NumberLong("0")}},
 		 OperateTime: new Date()
 	}
 }

@@ -18,12 +18,11 @@ import java.util.Arrays;
 public class CondTest {
     @Test
     public void sample1Test() {
-        String json = "{if: {$lt: [\"$Profit\", 0]}, then: 1, else: 0}";
+        String json = "{if: {$and: [{$eq: [\"$IncomeStatus\", 10]}, {$eq: [\"$ChannelFeeStatus\", 10]}, {$eq: [\"$BankChannelFeeStatus\", 10]}]}, then: 10, else: 20}";
         json = JSONUtils.fastjsonParsePreDeal(json);
 
         Document cond = ArithmeticExpressionOperators.cond(json);
         System.out.println(cond);
-
 
         Document result = new Document("$cond", Arrays.asList(
                 new Document("$and", Arrays.asList(
@@ -66,11 +65,31 @@ public class CondTest {
 
     @Test
     public void sample5Test() {
-        String json = "$cond: {if: {$or: [{$eq: [\"$IncomeStatus\", 30]}, {$eq: [\"$IncomeStatus\", 40]}, {$eq: [\"$ChannelFeeStatus\", 30]}, {$eq: [\"$BankChannelFeeStatus\", 30]}]}, then: 30, else: {$cond: {if: {$and: [{$eq: [\"$IncomeStatus\", 10]}, {$eq: [\"$ChannelFeeStatus\", 10]}, {$eq: [\"$BankChannelFeeStatus\", 10]}]}, then: 10, else: 20}}}";
+        String json = "{if: {$or: [{$eq: [\"$IncomeStatus\", 30]}, {$eq: [\"$IncomeStatus\", 40]}, {$eq: [\"$ChannelFeeStatus\", 30]}, {$eq: [\"$BankChannelFeeStatus\", 30]}]}, then: 30, else: {$cond: {if: {$and: [{$eq: [\"$IncomeStatus\", 10]}, {$eq: [\"$ChannelFeeStatus\", 10]}, {$eq: [\"$BankChannelFeeStatus\", 10]}]}, then: 10, else: 20}}}";
         json = JSONUtils.fastjsonParsePreDeal(json);
 
         Document cond = ArithmeticExpressionOperators.cond(json);
         System.out.println(cond);
+
+        Document result = new Document("$cond", Arrays.asList(
+                new Document("$or", Arrays.asList(
+                        new Document("$eq", Arrays.asList("$IncomeStatus", 30)),
+                        new Document("$eq", Arrays.asList("$IncomeStatus", 40)),
+                        new Document("$eq", Arrays.asList("$ChannelFeeStatus", 30)),
+                        new Document("$eq", Arrays.asList("$BankChannelFeeStatus", 30))
+                )),
+                30,
+                new Document("$cond", Arrays.asList(
+                        new Document("$and", Arrays.asList(
+                                new Document("$eq", Arrays.asList("$IncomeStatus", 10)),
+                                new Document("$eq", Arrays.asList("$ChannelFeeStatus", 10)),
+                                new Document("$eq", Arrays.asList("$BankChannelFeeStatus", 10))
+                        )),
+                        10,
+                        20)
+                ))
+        );
+        System.out.println(result);
     }
 
 }

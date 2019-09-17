@@ -29,13 +29,13 @@ public class Sample4Test {
         MongoClient mongoClient = new MongoClient("172.31.1.41", 27017);
         MongoDatabase database = mongoClient.getDatabase("costbenefitanalysis");
 
-//        List<Bson> parseBson = getParseBson();
-//        System.out.println(parseBson);
+        List<Bson> parseBson = getParseBson();
+        System.out.println(parseBson);
         List<Bson> compareBson = getCompareBson();
 
 
         MongoCollection<Document> collection = database.getCollection("SY_CollectedTxInfo");
-        MongoCursor<Document> dbCursor = collection.aggregate(compareBson).allowDiskUse(true).iterator();
+        MongoCursor<Document> dbCursor = collection.aggregate(parseBson).allowDiskUse(true).iterator();
         int count = 0;
         while (dbCursor.hasNext()) {
             Document item = dbCursor.next();
