@@ -36,16 +36,12 @@ public final class ArithmeticExpressionOperators {
     }
 
     /**
-     * multiply操作符转换<br>
-     * { $multiply: [ <expression1>, <expression2>, ... ] }
+     * subtract操作符转换
+     * { $subtract: [ <expression1>, <expression2> ] }
      *
      * @param json
      * @return
      */
-    public static Document multiply(String json) {
-        return new Document(OperatorExpressionConstants.MULTIPLY, Arrays.asList(getArrayExpression(json)));
-    }
-
     public static Document subtract(String json) {
         JSONArray array = JSONObject.parseArray(json);
         Object[] values = new Object[array.size()];
@@ -63,6 +59,17 @@ public final class ArithmeticExpressionOperators {
 
 
         return new Document(OperatorExpressionConstants.SUBTRACT, Arrays.asList(getArrayExpression(json)));
+    }
+
+    /**
+     * multiply操作符转换<br>
+     * { $multiply: [ <expression1>, <expression2>, ... ] }
+     *
+     * @param json
+     * @return
+     */
+    public static Document multiply(String json) {
+        return new Document(OperatorExpressionConstants.MULTIPLY, Arrays.asList(getArrayExpression(json)));
     }
 
     /**
