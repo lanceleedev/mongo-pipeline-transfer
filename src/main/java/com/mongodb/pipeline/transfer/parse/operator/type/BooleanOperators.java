@@ -2,16 +2,11 @@ package com.mongodb.pipeline.transfer.parse.operator.type;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
-import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * <pre>

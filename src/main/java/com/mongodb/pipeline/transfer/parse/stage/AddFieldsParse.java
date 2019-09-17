@@ -1,16 +1,12 @@
 package com.mongodb.pipeline.transfer.parse.stage;
 
-import com.alibaba.fastjson.JSONObject;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
-import com.mongodb.pipeline.transfer.helper.StageHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
-import org.bson.BsonInt32;
 import org.bson.conversions.Bson;
-import sun.applet.Main;
 
 import java.util.ArrayList;
 import java.util.Iterator;

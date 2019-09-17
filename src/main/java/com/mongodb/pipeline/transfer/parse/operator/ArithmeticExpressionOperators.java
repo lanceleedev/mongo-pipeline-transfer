@@ -7,7 +7,6 @@ import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
-import org.bson.BsonInt64;
 import org.bson.Document;
 
 import java.util.Arrays;

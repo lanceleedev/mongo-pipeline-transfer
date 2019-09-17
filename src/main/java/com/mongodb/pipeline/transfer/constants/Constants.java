@@ -11,23 +11,23 @@ package com.mongodb.pipeline.transfer.constants;
 public final class Constants {
 
 
-    public final static String LPAREN = "(";
+    public static final String LPAREN = "(";
 
-    public final static String RPAREN = ")";
+    public static final String RPAREN = ")";
 
-    public final static String LBRACE = "{";
+    public static final String LBRACE = "{";
 
-    public final static String RBRACE = "}";
+    public static final String RBRACE = "}";
 
-    public final static String LBRACKET = "[";
+    public static final String LBRACKET = "[";
 
-    public final static String RBRACKET = "]";
+    public static final String RBRACKET = "]";
 
-    public final static String COMMA = ",";
+    public static final String COMMA = ",";
 
-    public final static String COLON = ":";
+    public static final String COLON = ":";
 
-    public final static String APOSTROPHE  = "'";
+    public static final String APOSTROPHE = "'";
 
     /**
      * Type

@@ -1,15 +1,11 @@
 package com.mongodb.pipeline.transfer.helper;
 
-import com.mongodb.client.model.Field;
 import com.mongodb.pipeline.transfer.constants.Constants;
 import org.bson.BsonNumber;
 
 import com.mongodb.pipeline.transfer.parse.operator.type.NumericOperators;
 
-import java.lang.reflect.Method;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 数据类型操作符转换.

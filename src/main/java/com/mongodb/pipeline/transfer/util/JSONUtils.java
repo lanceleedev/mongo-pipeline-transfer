@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mongodb.pipeline.transfer.constants.Constants;
 
 /**
  * <p>JSON tools</p>
@@ -16,6 +17,11 @@ import com.alibaba.fastjson.JSONObject;
  * </pre>
  */
 public final class JSONUtils {
+    /**
+     * 处理特殊类型时，字符串在模式字符串后查找的长度
+     */
+    private static final int len = 30;
+
     private JSONUtils() {
     }
 
@@ -36,15 +42,20 @@ public final class JSONUtils {
      * 最终格式："NumberLong('0')", "new Date()"
      */
     public static String fastjsonParsePreDeal(String json) {
-        final String numberLong = "NumberLong";
-        final String date = "new Date";
+        final String DATE = "new Date";
 
-        return patternDeal(date, patternDeal(numberLong, json));
+        return patternDeal(DATE, patternDeal(Constants.NUMBER_LONG, json));
     }
 
+    /**
+     * 给预置的类型两侧增加"'"，避免fastjson转换失败
+     *
+     * @param pattern 需要处理的类型特征
+     * @param json    转换的json字符串
+     * @return
+     */
     private static String patternDeal(String pattern, String json) {
         StringBuilder tmp = new StringBuilder(json.length() + 10);
-        final int len = 30;
         int index;
         int start = 0;
         int end = 0;
