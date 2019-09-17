@@ -2,10 +2,16 @@ package com.mongodb.pipeline.transfer.helper;
 
 import com.mongodb.client.model.Filters;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
+import com.mongodb.pipeline.transfer.parse.operator.ComparisonExpressionOperators;
+import com.mongodb.pipeline.transfer.parse.operator.type.BooleanOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.StringOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ArithmeticExpressionOperators;
+import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * 函数处理
@@ -21,15 +27,13 @@ public final class ExpressionHelper {
     }
 
     /**
-     *
      * @param value
      * @return
      */
     public static Document parse(String value) {
-        Document operation = null;
-
-
-        return operation;
+        Iterator<? extends Map.Entry<String, ?>> iter = JSONUtils.getJSONObjectIterator(value);
+        Map.Entry<String, ?> next = iter.next();
+        return parse(next.getKey().trim(), next.getValue().toString().trim());
     }
 
     /**
@@ -46,7 +50,7 @@ public final class ExpressionHelper {
                 operation = ArithmeticExpressionOperators.add(value);
                 break;
             case OperatorExpressionConstants.SUBTRACT:
-                operation = StringOperators.substr(value);
+                operation = ArithmeticExpressionOperators.subtract(value);
                 break;
             case "$multiply":
                 operation = ArithmeticExpressionOperators.multiply(value);
@@ -60,6 +64,39 @@ public final class ExpressionHelper {
             case "$ifNull":
                 operation = ArithmeticExpressionOperators.ifNull(value);
                 break;
+
+            case "$cmp":
+                operation = ComparisonExpressionOperators.cmp(value);
+                break;
+            case "$eq":
+                operation = ComparisonExpressionOperators.eq(value);
+                break;
+            case "$gt":
+                operation = ComparisonExpressionOperators.gt(value);
+                break;
+            case "$gte":
+                operation = ComparisonExpressionOperators.gte(value);
+                break;
+            case "$lt":
+                operation = ComparisonExpressionOperators.lt(value);
+                break;
+            case "$lte":
+                operation = ComparisonExpressionOperators.lte(value);
+                break;
+            case "$ne":
+                operation = ComparisonExpressionOperators.ne(value);
+                break;
+
+            case "$and":
+                operation = BooleanOperators.and(value);
+                break;
+            case "$or":
+                operation = BooleanOperators.or(value);
+                break;
+            case "$not":
+                operation = BooleanOperators.not(value);
+                break;
+
             default:
                 throw new RuntimeException("dont't support this operator!" + operation);
         }

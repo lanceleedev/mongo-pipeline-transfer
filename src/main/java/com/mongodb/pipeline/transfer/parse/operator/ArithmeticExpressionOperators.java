@@ -2,9 +2,12 @@ package com.mongodb.pipeline.transfer.parse.operator;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
+import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
+import org.bson.BsonInt64;
 import org.bson.Document;
 
 import java.util.Arrays;
@@ -47,18 +50,14 @@ public final class ArithmeticExpressionOperators {
         Object[] values = new Object[array.size()];
         for (int i = 0, len = array.size(); i < len; i++) {
             Object obj = array.get(i);
-            if (obj.toString().startsWith("{")) {
-                Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(obj.toString().trim());
-                Map.Entry<String, ?> tmpNext = tmpIter.next();
-                values[i] = TypesHelper.numericParse(tmpNext.getKey(), tmpNext.getValue());
+            if (obj.toString().startsWith(Constants.LBRACE)) {
+                values[i] = ExpressionHelper.parse(obj.toString().trim());
             } else {
                 values[i] = obj;
             }
         }
 
-
-
-        return new Document(OperatorExpressionConstants.SUBTRACT, Arrays.asList(getArrayExpression(json)));
+        return new Document(OperatorExpressionConstants.SUBTRACT, Arrays.asList(values));
     }
 
     /**
@@ -102,39 +101,33 @@ public final class ArithmeticExpressionOperators {
      */
     public static Document cond(String json) {
         Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(json);
-        String IF = null;
-        Object THEN = null;
-        Object ELSE = null;
+        Object condIf = null;
+        Object condThen = null;
+        Object condElse = null;
         while (iterator.hasNext()) {
             Map.Entry<String, ?> next = iterator.next();
             String key = next.getKey().trim();
-            Object val = next.getValue();
+            String val = next.getValue().toString().trim();
+
+            Object tmp = null;
+            if (val.startsWith(Constants.LBRACE)) {
+                tmp = ExpressionHelper.parse(val);
+            } else {
+                /**
+                 * 值判断
+                 */
+                tmp = TypesHelper.parse(val);
+            }
             if ("if".equals(key)) {
-                IF = val.toString().trim();
+                condIf = tmp;
             } else if ("then".equals(key)) {
-                THEN = val;
+                condThen = tmp;
             } else {
-                ELSE = val;
+                condElse = tmp;
             }
         }
 
-        Iterator<? extends Map.Entry<String, ?>> ifIterator = JSONUtils.getJSONObjectIterator(IF);
-        Map.Entry<String, ?> next = ifIterator.next();
-        String operation = next.getKey().trim();
-        JSONArray params = JSONObject.parseArray(next.getValue().toString());
-
-        Document cond = new Document();
-        if (null != ELSE) {
-            if (ELSE.toString().contains("$cond")) {
-                Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(ELSE.toString().trim());
-                Map.Entry<String, ?> tmpNext = tmpIter.next();
-                cond = new Document("$cond", Arrays.asList(new Document(operation, Arrays.asList(params.getString(0), params.get(1))), THEN, cond(tmpNext
-                        .getValue().toString().trim())));
-            } else {
-                cond = new Document("$cond", Arrays.asList(new Document(operation, Arrays.asList(params.getString(0), params.get(1))), THEN, ELSE));
-            }
-        }
-        return cond;
+        return new Document("$cond", Arrays.asList(condIf, condThen, condElse));
     }
 
     /**

@@ -44,9 +44,10 @@ public final class AddFieldsParse {
             if (-1 != value.indexOf(Constants.LBRACE)) {
                 fields.add(new Field<>(key, ExpressionHelper.parse(value)));
             } else {
-                fields.add(TypesHelper.parse(key, value));
+                fields.add(new Field<>(key, TypesHelper.parse(value)));
             }
         }
         return Aggregates.addFields(fields);
     }
+
 }

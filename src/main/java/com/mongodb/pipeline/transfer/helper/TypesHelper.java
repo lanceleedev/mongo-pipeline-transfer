@@ -28,6 +28,7 @@ public final class TypesHelper {
     private TypesHelper() {
     }
 
+
     /**
      * 解析值类型.
      * 根据其中关键字判断
@@ -35,15 +36,15 @@ public final class TypesHelper {
      * @param value 值
      * @return
      */
-    public static Field parse(String key, String value) {
+    public static Object parse(String value) {
 
         if (-1 != value.indexOf(DATE)) {
-            return new Field(key, NumericOperators.numberLong(value));
+            return NumericOperators.numberLong(value);
         }
         if (-1 != value.indexOf(Constants.NUMBER_LONG)) {
-            return new Field(key, NumericOperators.numberLong(value));
+            return NumericOperators.numberLong(value);
         }
-        return new Field(key, value);
+        return value;
     }
 
     /**

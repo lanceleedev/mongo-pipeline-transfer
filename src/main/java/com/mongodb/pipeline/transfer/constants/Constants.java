@@ -32,6 +32,8 @@ public final class Constants {
     /**
      * Type
      */
+    public static final String DOLLAR = "$";
+
     public static final String NUMBER_LONG = "NumberLong";
 
     private Constants() {
