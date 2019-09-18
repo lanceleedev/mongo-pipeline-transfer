@@ -4,6 +4,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.parse.operator.AccumulatorsOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ComparisonExpressionOperators;
+import com.mongodb.pipeline.transfer.parse.operator.ConditionalExpressionOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.BooleanOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.StringOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ArithmeticExpressionOperators;
@@ -67,7 +68,6 @@ public final class ExpressionHelper {
                 operation = BooleanOperators.not(value);
                 break;
 
-
             case OperatorExpressionConstants.CMP:
                 operation = ComparisonExpressionOperators.cmp(value);
                 break;
@@ -91,10 +91,10 @@ public final class ExpressionHelper {
                 break;
 
             case OperatorExpressionConstants.COND:
-                operation = ArithmeticExpressionOperators.cond(value);
+                operation = ConditionalExpressionOperators.cond(value);
                 break;
             case OperatorExpressionConstants.IF_NULL:
-                operation = ArithmeticExpressionOperators.ifNull(value);
+                operation = ConditionalExpressionOperators.ifNull(value);
                 break;
 
             case OperatorExpressionConstants.SUBSTR:

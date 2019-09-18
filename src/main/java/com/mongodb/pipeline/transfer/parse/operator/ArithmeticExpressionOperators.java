@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * 表达式操作符解析
+ * 算术表达式操作符解析
  * <pre>
  * Modify Information:
  * Author       Date          Description
@@ -30,22 +30,22 @@ public final class ArithmeticExpressionOperators {
      * add操作符转换
      * { $add: [ <expression1>, <expression2>, ... ] }
      *
-     * @param json
+     * @param expression 表达式
      * @return
      */
-    public static Document add(String json) {
-        return new Document(OperatorExpressionConstants.ADD, Arrays.asList(getArrayExpression(json)));
+    public static Document add(String expression) {
+        return new Document(OperatorExpressionConstants.ADD, Arrays.asList(getArrayExpression(expression)));
     }
 
     /**
      * subtract操作符转换
      * { $subtract: [ <expression1>, <expression2> ] }
      *
-     * @param json
+     * @param expression 表达式
      * @return
      */
-    public static Document subtract(String json) {
-        JSONArray array = JSONObject.parseArray(json);
+    public static Document subtract(String expression) {
+        JSONArray array = JSONObject.parseArray(expression);
         Object[] values = new Object[array.size()];
         for (int i = 0, len = array.size(); i < len; i++) {
             Object obj = array.get(i);
@@ -63,94 +63,32 @@ public final class ArithmeticExpressionOperators {
      * multiply操作符转换<br>
      * { $multiply: [ <expression1>, <expression2>, ... ] }
      *
-     * @param json
+     * @param expression 表达式
      * @return
      */
-    public static Document multiply(String json) {
-        return new Document(OperatorExpressionConstants.MULTIPLY, Arrays.asList(getArrayExpression(json)));
+    public static Document multiply(String expression) {
+        return new Document(OperatorExpressionConstants.MULTIPLY, Arrays.asList(getArrayExpression(expression)));
     }
 
     /**
      * 数组类型表达式获取
      *
-     * @param json
+     * @param arrayExpression 数组表达式
      * @return
      */
-    public static Object[] getArrayExpression(String json) {
-        JSONArray array = JSONObject.parseArray(json);
-        Object[] values = new Object[array.size()];
+    public static Object[] getArrayExpression(String arrayExpression) {
+        JSONArray array = JSONObject.parseArray(arrayExpression);
+        Object[] expressions = new Object[array.size()];
         for (int i = 0, len = array.size(); i < len; i++) {
             Object obj = array.get(i);
-            if (obj.toString().startsWith("{")) {
+            if (obj.toString().startsWith(Constants.LBRACE)) {
                 Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(obj.toString().trim());
                 Map.Entry<String, ?> tmpNext = tmpIter.next();
-                values[i] = TypesHelper.numericParse(tmpNext.getKey(), tmpNext.getValue());
+                expressions[i] = TypesHelper.numericParse(tmpNext.getKey(), tmpNext.getValue());
             } else {
-                values[i] = obj;
+                expressions[i] = obj;
             }
         }
-        return values;
-    }
-
-    /**
-     * <p>cond 操作符解析</p>
-     *
-     * @param json
-     * @return
-     */
-    public static Document cond(String json) {
-        Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(json);
-        Object condIf = null;
-        Object condThen = null;
-        Object condElse = null;
-        while (iterator.hasNext()) {
-            Map.Entry<String, ?> next = iterator.next();
-            String key = next.getKey().trim();
-            String val = next.getValue().toString().trim();
-
-            Object tmp = null;
-            if (val.startsWith(Constants.LBRACE)) {
-                tmp = ExpressionHelper.parse(val);
-            } else {
-                tmp = TypesHelper.parse(val);
-            }
-            if ("if" .equals(key)) {
-                condIf = tmp;
-            } else if ("then" .equals(key)) {
-                condThen = tmp;
-            } else {
-                condElse = tmp;
-            }
-        }
-
-        return new Document(OperatorExpressionConstants.COND, Arrays.asList(condIf, condThen, condElse));
-    }
-
-    /**
-     * ifNull操作符解析
-     * { $ifNull: [ <expression>, <replacement-expression-if-null> ] }
-     *
-     * @param json
-     * @return
-     */
-    public static Document ifNull(String json) {
-        JSONArray array = JSONObject.parseArray(json);
-        String str1 = array.get(0).toString().trim();
-        String str2 = array.get(1).toString().trim();
-
-        Object expression = null;
-        if (str1.startsWith("$")) {
-            expression = str1;
-        }else{
-            expression = TypesHelper.parse(str1);
-        }
-
-        Object replacement = null;
-        if (str2.startsWith("$")) {
-            replacement = str2;
-        }else{
-            replacement = TypesHelper.parse(str2);
-        }
-        return new Document("$ifNull", Arrays.asList(expression, replacement));
+        return expressions;
     }
 }

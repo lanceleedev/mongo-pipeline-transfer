@@ -7,14 +7,12 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.*;
 import com.mongodb.pipeline.transfer.MongoDBPipelineUtils;
 import com.mongodb.pipeline.transfer.test.util.FileUtils;
-import org.bson.BsonInt64;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**

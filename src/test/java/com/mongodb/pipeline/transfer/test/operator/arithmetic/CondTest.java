@@ -1,6 +1,6 @@
 package com.mongodb.pipeline.transfer.test.operator.arithmetic;
 
-import com.mongodb.pipeline.transfer.parse.operator.ArithmeticExpressionOperators;
+import com.mongodb.pipeline.transfer.parse.operator.ConditionalExpressionOperators;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class CondTest {
         String json = "{if: {$and: [{$eq: [\"$IncomeStatus\", 10]}, {$eq: [\"$ChannelFeeStatus\", 10]}, {$eq: [\"$BankChannelFeeStatus\", 10]}]}, then: 10, else: 20}";
         json = JSONUtils.fastjsonParsePreDeal(json);
 
-        Document cond = ArithmeticExpressionOperators.cond(json);
+        Document cond = ConditionalExpressionOperators.cond(json);
         System.out.println(cond);
 
         Document result = new Document("$cond", Arrays.asList(
@@ -41,7 +41,7 @@ public class CondTest {
         String json = "{if: {$lt: [\"$Profit\", 0]}, then: \"1\", else: \"0\"}";
         json = JSONUtils.fastjsonParsePreDeal(json);
 
-        Document cond = ArithmeticExpressionOperators.cond(json);
+        Document cond = ConditionalExpressionOperators.cond(json);
         System.out.println(cond);
     }
 
@@ -50,7 +50,7 @@ public class CondTest {
         String json = "{if: {$gte: [\"$Profit\", 0]}, then: NumberLong(\"11\"), else: NumberLong(\"21\")}";
         json = JSONUtils.fastjsonParsePreDeal(json);
 
-        Document cond = ArithmeticExpressionOperators.cond(json);
+        Document cond = ConditionalExpressionOperators.cond(json);
         System.out.println(cond);
     }
 
@@ -59,7 +59,7 @@ public class CondTest {
         String json = "{if: {$lt: [\"$Profit\", 0]}, then: new Date(), else: 0}";
         json = JSONUtils.fastjsonParsePreDeal(json);
 
-        Document cond = ArithmeticExpressionOperators.cond(json);
+        Document cond = ConditionalExpressionOperators.cond(json);
         System.out.println(cond);
     }
 
@@ -68,7 +68,7 @@ public class CondTest {
         String json = "{if: {$or: [{$eq: [\"$IncomeStatus\", 30]}, {$eq: [\"$IncomeStatus\", 40]}, {$eq: [\"$ChannelFeeStatus\", 30]}, {$eq: [\"$BankChannelFeeStatus\", 30]}]}, then: 30, else: {$cond: {if: {$and: [{$eq: [\"$IncomeStatus\", 10]}, {$eq: [\"$ChannelFeeStatus\", 10]}, {$eq: [\"$BankChannelFeeStatus\", 10]}]}, then: 10, else: 20}}}";
         json = JSONUtils.fastjsonParsePreDeal(json);
 
-        Document cond = ArithmeticExpressionOperators.cond(json);
+        Document cond = ConditionalExpressionOperators.cond(json);
         System.out.println(cond);
 
         Document result = new Document("$cond", Arrays.asList(
