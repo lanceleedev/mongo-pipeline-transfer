@@ -24,9 +24,9 @@ public final class StringOperators {
     }
 
     /**
-     * <p>substr操作符解析</p>
-     * <p>
-     * { $substr: [ string, start, length ] }
+     * substr操作符解析
+     * { $substr: [ <string>, <start>, <length> ] }
+     * Sample：
      * { $substr: [ { $ifNull: [ string, "XXXXXXXXX" ] }, start, length ] }
      *
      * @param json

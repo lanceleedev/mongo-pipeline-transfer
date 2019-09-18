@@ -2,6 +2,7 @@ package com.mongodb.pipeline.transfer.helper;
 
 import com.mongodb.client.model.Filters;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
+import com.mongodb.pipeline.transfer.parse.operator.AccumulatorsOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ComparisonExpressionOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.BooleanOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.StringOperators;
@@ -52,50 +53,54 @@ public final class ExpressionHelper {
             case OperatorExpressionConstants.SUBTRACT:
                 operation = ArithmeticExpressionOperators.subtract(value);
                 break;
-            case "$multiply":
+            case OperatorExpressionConstants.MULTIPLY:
                 operation = ArithmeticExpressionOperators.multiply(value);
                 break;
-            case "$substr":
-                operation = StringOperators.substr(value);
+
+            case OperatorExpressionConstants.AND:
+                operation = BooleanOperators.and(value);
                 break;
-            case "$cond":
-                operation = ArithmeticExpressionOperators.cond(value);
+            case OperatorExpressionConstants.OR:
+                operation = BooleanOperators.or(value);
                 break;
-            case "$ifNull":
-                operation = ArithmeticExpressionOperators.ifNull(value);
+            case OperatorExpressionConstants.NOT:
+                operation = BooleanOperators.not(value);
                 break;
 
-            case "$cmp":
+
+            case OperatorExpressionConstants.CMP:
                 operation = ComparisonExpressionOperators.cmp(value);
                 break;
-            case "$eq":
+            case OperatorExpressionConstants.EQ:
                 operation = ComparisonExpressionOperators.eq(value);
                 break;
-            case "$gt":
+            case OperatorExpressionConstants.GT:
                 operation = ComparisonExpressionOperators.gt(value);
                 break;
-            case "$gte":
+            case OperatorExpressionConstants.GTE:
                 operation = ComparisonExpressionOperators.gte(value);
                 break;
-            case "$lt":
+            case OperatorExpressionConstants.LT:
                 operation = ComparisonExpressionOperators.lt(value);
                 break;
-            case "$lte":
+            case OperatorExpressionConstants.LTE:
                 operation = ComparisonExpressionOperators.lte(value);
                 break;
-            case "$ne":
+            case OperatorExpressionConstants.NE:
                 operation = ComparisonExpressionOperators.ne(value);
                 break;
 
-            case "$and":
-                operation = BooleanOperators.and(value);
+            case OperatorExpressionConstants.COND:
+                operation = ArithmeticExpressionOperators.cond(value);
                 break;
-            case "$or":
-                operation = BooleanOperators.or(value);
+            case OperatorExpressionConstants.IF_NULL:
+                operation = ArithmeticExpressionOperators.ifNull(value);
                 break;
-            case "$not":
-                operation = BooleanOperators.not(value);
+
+            case OperatorExpressionConstants.SUBSTR:
+                operation = StringOperators.substr(value);
                 break;
+
 
             default:
                 throw new RuntimeException("dont't support this operator!" + operation);

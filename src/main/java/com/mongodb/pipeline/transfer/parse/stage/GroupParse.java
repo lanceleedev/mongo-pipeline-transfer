@@ -4,6 +4,7 @@ import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.BsonField;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
+import com.mongodb.pipeline.transfer.helper.AccumulatorHelper;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
@@ -35,7 +36,7 @@ public final class GroupParse {
      */
     public static Bson process(String json) {
         Document _id = null;
-        List<BsonField> fieldAccumulators = new ArrayList<BsonField>();
+        List<BsonField> fieldAccumulators = new ArrayList<>();
 
         Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(json);
         Map.Entry<String, ?> next;
@@ -88,28 +89,13 @@ public final class GroupParse {
      * money: {$sum: {$cond: {if: {$eq: ["$status", 20]}, then: "$money", else: 0}}}
      * money: {$sum: "$money"}
      *
-     * @param field
+     * @param field 字段
      * @param value
      * @return
      */
     private static BsonField getAccumulator(String field, String value) {
-        BsonField accumulator = null;
         Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(value);
         Map.Entry<String, ?> next = iterator.next();
-        Object val = next.getValue();
-        switch (next.getKey()) {
-            case OperatorExpressionConstants.SUM:
-                if (val.toString().contains("$cond")) {
-                    Iterator<? extends Map.Entry<String, ?>> tmpIter = JSONUtils.getJSONObjectIterator(val.toString().trim());
-                    Map.Entry<String, ?> tmpNext = tmpIter.next();
-                    accumulator = Accumulators.sum(field, ExpressionHelper.parse("$cond", tmpNext.getValue().toString().trim()));
-                } else {
-                    accumulator = Accumulators.sum(field, val);
-                }
-                break;
-            default:
-                break;
-        }
-        return accumulator;
+        return AccumulatorHelper.parse(field, next.getKey().trim(), next.getValue().toString().trim());
     }
 }
