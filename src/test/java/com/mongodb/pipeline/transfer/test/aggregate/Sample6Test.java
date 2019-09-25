@@ -1,6 +1,7 @@
 package com.mongodb.pipeline.transfer.test.aggregate;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -26,7 +27,7 @@ import java.util.List;
 public class Sample6Test {
     @Test
     public void SampleTest() {
-        MongoClient mongoClient = new MongoClient("172.31.1.41", 27017);
+        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://cpcn:cpcn1234@172.31.1.226:27017,172.31.1.248:27017,172.31.1.228:27017,172.31.1.252:27017/?authSource=admin"));
         MongoDatabase database = mongoClient.getDatabase("costbenefitanalysis");
 
         List<Bson> parseBson = getParseBson();
@@ -67,7 +68,6 @@ public class Sample6Test {
         list.add(Aggregates.lookup("SY_BusinessTypeConfig", variables1, pipeline1, "config"));
 
         list.add(Aggregates.unwind("$config", new UnwindOptions().preserveNullAndEmptyArrays(true)));
-
 
 
 

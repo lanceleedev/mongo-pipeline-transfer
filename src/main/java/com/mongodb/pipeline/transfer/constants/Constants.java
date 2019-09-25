@@ -34,7 +34,11 @@ public final class Constants {
      */
     public static final String DOLLAR = "$";
 
+    public static final String NUMBER_INT = "NumberInt";
+
     public static final String NUMBER_LONG = "NumberLong";
+
+    public static final String NUMBER_DECIMAL = "NumberDecimal";
 
     private Constants() {
     }

@@ -44,7 +44,7 @@ public final class JSONUtils {
     public static String fastjsonParsePreDeal(String json) {
         final String DATE = "new Date";
 
-        return patternDeal(DATE, patternDeal(Constants.NUMBER_LONG, json));
+        return patternDeal(DATE, patternDeal(Constants.NUMBER_DECIMAL, patternDeal(Constants.NUMBER_LONG, patternDeal(Constants.NUMBER_INT, json))));
     }
 
     /**

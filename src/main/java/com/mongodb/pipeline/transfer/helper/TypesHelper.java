@@ -38,8 +38,14 @@ public final class TypesHelper {
         if (-1 != value.indexOf(DATE)) {
             return new Date();
         }
+        if (-1 != value.indexOf(Constants.NUMBER_INT)) {
+            return NumericOperators.numberInt(value);
+        }
         if (-1 != value.indexOf(Constants.NUMBER_LONG)) {
             return NumericOperators.numberLong(value);
+        }
+        if (-1 != value.indexOf(Constants.NUMBER_DECIMAL)) {
+            return NumericOperators.numberDecimal(value);
         }
         return value;
     }

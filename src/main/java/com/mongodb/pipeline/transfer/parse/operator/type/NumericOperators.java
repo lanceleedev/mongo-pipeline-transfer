@@ -1,8 +1,13 @@
 package com.mongodb.pipeline.transfer.parse.operator.type;
 
 import com.mongodb.pipeline.transfer.constants.Constants;
+import org.bson.BsonDecimal128;
+import org.bson.BsonInt32;
 import org.bson.BsonInt64;
 import org.bson.BsonNumber;
+import org.bson.types.Decimal128;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -16,6 +21,18 @@ import org.bson.BsonNumber;
  */
 public final class NumericOperators {
     private NumericOperators() {
+    }
+
+    /**
+     * numberInt操作符转换.<br>
+     * numberInt('0')
+     *
+     * @param value
+     * @return
+     */
+    public static BsonNumber numberInt(String value) {
+        String tmp = value.split(Constants.APOSTROPHE)[1].trim();
+        return new BsonInt32(Integer.parseInt(tmp));
     }
 
     /**
@@ -40,4 +57,17 @@ public final class NumericOperators {
         String tmp = value.split(Constants.APOSTROPHE)[1].trim();
         return new BsonInt64(Long.parseLong(tmp));
     }
+
+    /**
+     * numberDecimal 操作符转换.<br>
+     * numberDecimal('0')
+     *
+     * @param value
+     * @return
+     */
+    public static BsonNumber numberDecimal(String value) {
+        String tmp = value.split(Constants.APOSTROPHE)[1].trim();
+        return new BsonDecimal128(new Decimal128(new BigDecimal(tmp)));
+    }
+
 }
