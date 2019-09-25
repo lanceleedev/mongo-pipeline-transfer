@@ -21,24 +21,64 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.pipeline.transfer.MongoDBPipelineUtils;
 
 ... 
-
+String aggregate = "[{ $match : { Date:{$gte:\"20181112\", $lt:\"2018113\" }}},{ $lookup : { from: \"FeeInfo\", " +
+                "localField: \"FeeVourcherID\", foreignField: \"FeeVourcherID\", as: \"fee\" }}...]";
 List<Bson> bsonList = MongoDBPipelineUtils.aggregateJson2BsonList(aggregate);
 MongoCursor<Document> dbCursor = col.aggregate(bsonList).allowDiskUse(true).iterator();
 ```
 
-## 使用注意事项
-- 聚合语句中数据格式为强校验，比如 `$subtract`，两个表达式数据格式应相同；
-- 数据类型必须明确，不可用使用含义不明确的 `0`，数字应使用 `NumberLong("0")` 或者 字符应使用`"0"`；
-```mongodb
-{
-    $addFields: {
-        Num: NumberLong("0"),
-        Profit: {$subtract: [ "$Income", {$ifNull: [ "$Fee", NumberLong("0") ]} ]}
+# 工作机制
+将 `MongoDB pipeline` 字符串解析为 `List<Bson>` 进行聚合操作。
+```
+[{  
+    $match : {
+        Date:{$gte:"20181112", $lt:"2018113" }
     }
-}
+},{
+    $lookup : {
+        from: "FeeInfo",   
+        localField: "FeeVourcherID",
+        foreignField: "FeeVourcherID",
+        as: "fee"
+    }
+},{
+    $unwind :{ path:"$fee", preserveNullAndEmptyArrays: true}
+},{
+  $project: {
+        SystemNo: "$SystemNo",
+        Date: "$TxDate",
+        Income: { $ifNull: [ "$fee.Income", "$Income" ] },
+        IncomeStatus: {$cond: {if: {$gte: ["$fee.Income", NumberInt("0")]}, 
+            then: "$fee.IncomeStatus", else: NumberInt("40")}}
+    }
+},{
+    $addFields: {
+        Status: NumberInt("0")
+    }
+}]
+```
+以上字符串将会被解析为
+```
+List<Bson> bsonList = new ArrayList<>();
+bsonList.add(Aggregates.match(Filters.and(Filters.gte("Date", "20181112"),
+        Filters.lt("Date", "2018113"))));
+
+bsonList.add(Aggregates.lookup("FeeInfo", "FeeVourcherID", "FeeVourcherID", "fee"));
+
+bsonList.add(Aggregates.unwind("$fee", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+
+bsonList.add(Aggregates.project(new Document("SystemNo", "$SystemNo")
+        .append("Date", "$Date")
+        .append("Income", new Document("$ifNull", Arrays.asList("$fee.Income", "$Income")))
+        .append("IncomeStatus", new Document("$cond",
+            Arrays.asList(new Document("$gte", Arrays.asList("$fee.Income", 0)), "$fee.IncomeStatus", 40)))
+));
+
+bsonList.add(Aggregates.addFields(new Field<>("Status", new BsonInt64(Long.parseLong("0")))));
 ```
 
-# TODO List
-- 支持更多的 `pipeline stage` 和更多的操作符解析
-- 传入 `JSON` 格式校验
-- 
+# License
+mongo-pipeline-transfer is released under the Apache 2.0 license.
+
+# FAQ
+如果你有任何问题，欢迎提Issus，或者通过邮件联系 `lanceleedev@outlook.com`。 

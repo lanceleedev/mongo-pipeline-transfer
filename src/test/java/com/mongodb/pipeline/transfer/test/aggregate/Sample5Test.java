@@ -57,6 +57,24 @@ public class Sample5Test {
     }
 
     private List<Bson> getCompareBson() {
+        List<Bson> bsonList = new ArrayList<>();
+        bsonList.add(Aggregates.match(Filters.and(Filters.gte("Date", "20181112"),
+                Filters.lt("Date", "2018113"))));
+
+        bsonList.add(Aggregates.lookup("FeeInfo", "FeeVourcherID", "FeeVourcherID", "fee"));
+
+        bsonList.add(Aggregates.unwind("$fee", new UnwindOptions().preserveNullAndEmptyArrays(true)));
+
+        bsonList.add(Aggregates.project(new Document("SystemNo", "$SystemNo")
+                .append("Date", "$Date")
+                .append("Income", new Document("$ifNull", Arrays.asList("$fee.Income", "$Income")))
+                .append("IncomeStatus", new Document("$cond",
+                        Arrays.asList(new Document("$gte", Arrays.asList("$fee.Income", 0)), "$fee.IncomeStatus", 40)))
+
+        ));
+
+        bsonList.add(Aggregates.addFields(new Field<>("Status", new BsonInt64(Long.parseLong("0")))));
+
         return null;
     }
 }

@@ -37,7 +37,7 @@ public class Sample1Test {
 
 
         MongoCollection<Document> collection = database.getCollection("YH_Gathering");
-        MongoCursor<Document> dbCursor = collection.aggregate(parseBson).allowDiskUse(true).iterator();
+        MongoCursor<Document> dbCursor = collection.aggregate(compareBson).allowDiskUse(true).iterator();
         int count = 0;
         while (dbCursor.hasNext()) {
             Document item = dbCursor.next();
