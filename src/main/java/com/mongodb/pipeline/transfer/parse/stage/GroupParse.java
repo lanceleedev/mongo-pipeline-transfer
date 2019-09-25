@@ -29,9 +29,9 @@ public final class GroupParse {
     }
 
     /**
-     * <p>生成group Bson</p>
+     * 生成Group Bson
      *
-     * @param json
+     * @param json Group 需要解析内容
      * @return
      */
     public static Bson process(String json) {

@@ -26,6 +26,11 @@ public final class AddFieldsParse {
     private AddFieldsParse() {
     }
 
+    /**
+     * 生成 AddField Bson
+     * @param json AddField 需要解析内容
+     * @return
+     */
     public static Bson process(String json) {
         List<Field<?>> fields = new ArrayList<>();
 

@@ -24,9 +24,9 @@ public final class ProjectParse {
     }
 
     /**
-     * <p>生成 Project Bson</p>
+     * Project Bson生成
      *
-     * @param json
+     * @param json Project 需要解析内容
      * @return
      */
     public static Bson process(String json) {

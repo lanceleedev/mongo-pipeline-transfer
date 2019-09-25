@@ -25,9 +25,9 @@ public final class LookupParse {
     }
 
     /**
-     * <p>Lookup Match 生成</p>
+     * Lookup Bson 生成
      *
-     * @param json
+     * @param json Lookup 需要解析内容
      * @return
      */
     public static Bson process(String json) {
