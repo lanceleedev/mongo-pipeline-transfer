@@ -36,7 +36,7 @@ public final class DateExpressionOperators extends Operators {
         JSONObject expObj = JSONObject.parseObject(json);
         String dateStringVal = expObj.getString(Constants.DATEFROMSTRING_DATESTRING);
         Object formatVal = expObj.get(Constants.DATEFROMSTRING_FORMAT);
-        Object timezoneVal = expObj.get(Constants.DATEFROMSTRING_TIMEZONE);
+        Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
         Object onErrorVal = expObj.get(Constants.DATEFROMSTRING_ON_ERROR);
         Object onNullVal = expObj.get(Constants.DATEFROMSTRING_ON_NULL);
 
@@ -47,7 +47,7 @@ public final class DateExpressionOperators extends Operators {
         }
 
         if (null != timezoneVal) {
-            docContent.append(Constants.DATEFROMSTRING_TIMEZONE, getExpressionValue(timezoneVal.toString()));
+            docContent.append(Constants.DATE_TIMEZONE, getExpressionValue(timezoneVal.toString()));
         }
 
         if (null != onErrorVal) {
@@ -59,5 +59,64 @@ public final class DateExpressionOperators extends Operators {
         }
 
         return new Document(OperatorExpressionConstants.DATE_FROM_STRING, docContent);
+    }
+
+    /**
+     * $year 操作符解析。支持2中格式
+     * <code>
+     * { $year: <dateExpression> }
+     * or
+     * { $year: {
+     *      date: <dateExpression>,
+     *      timezone: <tzExpression>  // Optional.
+     * } }
+     * </code>
+     * @param json 操作符内容
+     * @return
+     */
+    public static Document year(String json) {
+        if (json.startsWith(Constants.LBRACE)) {
+            JSONObject expObj = JSONObject.parseObject(json);
+            String dateVal = expObj.getString(Constants.DATE_DATE);
+            Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
+            Document docContent = new Document(Constants.DATE_DATE, getExpressionValue(dateVal));
+
+            if (null != timezoneVal) {
+                docContent.append(Constants.DATE_TIMEZONE, getExpressionValue(timezoneVal.toString()));
+            }
+
+            return new Document(OperatorExpressionConstants.YEAR, docContent);
+        }
+        return new Document(OperatorExpressionConstants.YEAR, getExpressionValue(json));
+    }
+
+    /**
+     * $month 操作符解析。支持2中格式
+     * <code>
+     * { $month: <dateExpression> }
+     * or
+     * { $month: {
+     *      date: <dateExpression>,
+     *      timezone: <tzExpression>  // Optional.
+     * } }
+     * </code>
+     * @param json 操作符内容
+     * @return
+     */
+    public static Document month(String json) {
+        if (json.startsWith(Constants.LBRACE)) {
+            JSONObject expObj = JSONObject.parseObject(json);
+            String dateVal = expObj.getString(Constants.DATE_DATE);
+            Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
+            Document docContent = new Document(Constants.DATE_DATE, getExpressionValue(dateVal));
+
+            if (null != timezoneVal) {
+                docContent.append(Constants.DATE_TIMEZONE, getExpressionValue(timezoneVal.toString()));
+            }
+
+            return new Document(OperatorExpressionConstants.MONTH, docContent);
+        }
+        return new Document(OperatorExpressionConstants.MONTH, getExpressionValue(json));
+
     }
 }

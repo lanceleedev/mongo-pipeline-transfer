@@ -28,4 +28,9 @@ public class DateTest {
         Document result = new Document("$dateFromString", new Document("dateString",  "$交易日期").append("format","%Y%m%d"));
         System.out.println(result);
     }
+
+    @Test
+    public void yearTest() {
+
+    }
 }

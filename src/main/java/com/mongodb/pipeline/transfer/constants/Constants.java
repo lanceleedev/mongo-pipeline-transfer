@@ -63,13 +63,18 @@ public final class Constants {
     public static final String SWITCH_THEN = "then";
 
     /**
+     * 日期通用 操作符
+     */
+    public static final String DATE_DATE = "date";
+
+    public static final String DATE_TIMEZONE = "timezone";
+
+    /**
      * dateFromString 操作符
      */
     public static final String DATEFROMSTRING_DATESTRING = "dateString";
 
     public static final String DATEFROMSTRING_FORMAT = "format";
-
-    public static final String DATEFROMSTRING_TIMEZONE = "timezone";
 
     public static final String DATEFROMSTRING_ON_ERROR = "onError";
 

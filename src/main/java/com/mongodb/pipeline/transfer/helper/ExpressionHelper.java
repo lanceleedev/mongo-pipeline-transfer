@@ -105,6 +105,12 @@ public final class ExpressionHelper {
             case OperatorExpressionConstants.DATE_FROM_STRING:
                 operation = DateExpressionOperators.dateFromString(value);
                 break;
+            case OperatorExpressionConstants.MONTH:
+                operation = DateExpressionOperators.month(value);
+                break;
+            case OperatorExpressionConstants.YEAR:
+                operation = DateExpressionOperators.year(value);
+                break;
 
             case OperatorExpressionConstants.CONCAT:
                 operation = StringOperators.concat(value);
