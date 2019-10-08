@@ -34,8 +34,8 @@ public final class TypeExpressionOperators extends Operators {
      */
     public static Document convert(String json) {
         JSONObject obj = JSONObject.parseObject(json);
-        String inputVal = obj.get(Constants.CONVERT_INPUT).toString();
-        String toVal = obj.get(Constants.CONVERT_TO).toString();
+        String inputVal = obj.getString(Constants.CONVERT_INPUT);
+        String toVal = obj.getString(Constants.CONVERT_TO);
 
         Document document = new Document(Constants.CONVERT_INPUT, getExpressionValue(inputVal)).append(Constants.CONVERT_TO, toVal);
 

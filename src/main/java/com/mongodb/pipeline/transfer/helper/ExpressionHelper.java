@@ -5,6 +5,7 @@ import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.parse.operator.AccumulatorsOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ComparisonExpressionOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ConditionalExpressionOperators;
+import com.mongodb.pipeline.transfer.parse.operator.DateExpressionOperators;
 import com.mongodb.pipeline.transfer.parse.operator.TypeExpressionOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.BooleanOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.StringOperators;
@@ -99,6 +100,10 @@ public final class ExpressionHelper {
                 break;
             case OperatorExpressionConstants.SWITCH:
                 operation = ConditionalExpressionOperators.mSwitch(value);
+                break;
+
+            case OperatorExpressionConstants.DATE_FROM_STRING:
+                operation = DateExpressionOperators.dateFromString(value);
                 break;
 
             case OperatorExpressionConstants.CONCAT:
