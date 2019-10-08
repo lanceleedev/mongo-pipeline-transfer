@@ -113,8 +113,25 @@ public final class ConditionalExpressionOperators extends Operators {
      * @return
      */
     public static Document mSwitch(String json) {
-       
+        JSONObject obj = JSONObject.parseObject(json);
+        String switchBranches = obj.getString(Constants.SWITCH_BRANCHES);
+        Object switchDefault = obj.get(Constants.SWITCH_DEFAULT);
 
-        return null;
+        JSONArray array = JSONObject.parseArray(switchBranches);
+        Object[] branches = new Object[array.size()];
+        for (int i = 0, len = array.size(); i < len; i++) {
+            String caseJson = array.get(i).toString();
+            JSONObject objTmp = JSONObject.parseObject(caseJson);
+            branches[i] = new Document(Constants.SWITCH_CASE, getExpressionValue(objTmp.getString(Constants.SWITCH_CASE)))
+                    .append(Constants.SWITCH_THEN, getExpressionValue(objTmp.getString(Constants.SWITCH_THEN)));
+        }
+        Document switchDocument = new Document(Constants.SWITCH_BRANCHES, Arrays.asList(branches));
+
+        // optional default handle
+        if (null != switchDefault) {
+            switchDocument.append(Constants.SWITCH_DEFAULT, "No scores found.");
+        }
+
+        return new Document(OperatorExpressionConstants.SWITCH, switchDocument);
     }
 }

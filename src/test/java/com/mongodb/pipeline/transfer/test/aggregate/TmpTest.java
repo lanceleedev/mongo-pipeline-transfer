@@ -5,6 +5,7 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
@@ -48,41 +49,35 @@ public class TmpTest {
 
     private List<Bson> getCompareBson() {
         List<Bson> bsonList = new ArrayList<>();
+//        bsonList.add(Aggregates.project(
+//                new Document("收入", "$Income")
+//                        .append("收入等级", new Document("$switch",
+//                                new Document("branches", Arrays.asList(
+//                                        new Document("case", new Document("$gte", Arrays.asList(new Document("$avg", "$Income"), 90))).append("then", "Doing great!"),
+//                                        new Document("case", new Document("$and", Arrays.asList(
+//                                                new Document("$gte", Arrays.asList(new Document("$avg", "$Income"), 80)),
+//                                                new Document("$lt", Arrays.asList(new Document("$avg", "$Income"), 90))
+//                                        ))).append("then", "Doing pretty well."),
+//                                        new Document("case", new Document("$lt", Arrays.asList(new Document("$avg", "$Income"), 80))).append("then", "Needs improvement.")))
+//                                        .append("default", "No scores found.")))
+//        ));
 
 //        {
-//            $switch:
-//            {
-//                branches: [
-//                {
-//										case: { $gte : [ { $avg : "$Income" }, 90 ] },
-//                    then: "Doing great!"
+//            $group: {
+//                _id : {
+//                    收入状态: "$IncomeStatus"
 //                },
-//                {
-//										case: { $and : [ { $gte : [ { $avg : "$Income" }, 80 ] },
-//                    { $lt : [ { $avg : "$Income" }, 90 ] } ] },
-//                    then: "Doing pretty well."
-//                },
-//                {
-//										case: { $lt : [ { $avg : "$Income" }, 80 ] },
-//                    then: "Needs improvement."
-//                }
-//								],
-//                default: "No scores found."
+//                平均收入:{ $avg : "$Income" }
+//
+//            }
+//        },{
+//            $project: {
+//                收入状态: "$_id.收入状态",
+//                        平均收入: "$平均收入"
 //            }
 //        }
-        bsonList.add(Aggregates.project(
-                new Document("收入", "$Income")
-                        .append("收入等级", new Document("$switch",
-                                new Document("branches", Arrays.asList(
-                                        new Document("case", new Document("$gte", Arrays.asList(new Document("$avg", "$Income"), 90))).append("then", "Doing great!"),
-                                        new Document("case", new Document("$and", Arrays.asList(
-                                                new Document("$gte", Arrays.asList(new Document("$avg", "$Income"), 80)),
-                                                new Document("$lt", Arrays.asList(new Document("$avg", "$Income"), 90))
-                                        ))).append("then", "Doing pretty well."),
-                                        new Document("case", new Document("$lt", Arrays.asList(new Document("$avg", "$Income"), 80))).append("then", "Needs improvement.")))
-                                        .append("default", "No scores found.")))
-        ));
-
+        bsonList.add(Aggregates.group(new Document("收入状态", "$IncomeStatus"), Accumulators.avg("平均收入", "$Income")));
+        bsonList.add(Aggregates.project(new Document("收入状态" , "$_id.收入状态").append("平均收入","$平均收入")));
 
         return bsonList;
     }

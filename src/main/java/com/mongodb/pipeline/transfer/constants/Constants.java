@@ -58,6 +58,10 @@ public final class Constants {
 
     public static final String SWITCH_DEFAULT = "default";
 
+    public static final String SWITCH_CASE = "case";
+
+    public static final String SWITCH_THEN = "then";
+
 
     private Constants() {
     }

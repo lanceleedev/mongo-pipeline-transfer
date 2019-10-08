@@ -2,9 +2,9 @@ package com.mongodb.pipeline.transfer.test.operator;
 
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.BsonField;
-import com.mongodb.pipeline.transfer.helper.AccumulatorHelper;
+import com.mongodb.pipeline.transfer.helper.GroupStageAccumulatorHelper;
+import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.parse.operator.AccumulatorsOperators;
-import com.mongodb.pipeline.transfer.parse.operator.type.BooleanOperators;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.BsonInt64;
 import org.bson.Document;
@@ -27,7 +27,7 @@ public class AccumulatorsTest {
         String json = "{$ifNull: [ \"$TxAmount\", NumberLong(\"0\") ]}";
         json = JSONUtils.fastjsonParsePreDeal(json);
 
-        BsonField sum = AccumulatorHelper.parse("TotalTxAmount","$sum",json);
+        BsonField sum = GroupStageAccumulatorHelper.parse("TotalTxAmount","$sum",json);
         System.out.println(sum);
 
         BsonField result = Accumulators.sum("TotalTxAmount",
@@ -56,6 +56,15 @@ public class AccumulatorsTest {
         System.out.println(sum);
     }
 
+    @Test
+    public void avgTest() {
+        String json = "{ $avg : \"$Income\" }";
+        json = JSONUtils.fastjsonParsePreDeal(json);
+        Document avg = ExpressionHelper.parse(json);
+        System.out.println(avg);
+
+
+    }
 
 
 }

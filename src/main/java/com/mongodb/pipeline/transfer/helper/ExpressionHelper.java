@@ -115,6 +115,19 @@ public final class ExpressionHelper {
                 operation = TypeExpressionOperators.convert(value);
                 break;
 
+            case OperatorExpressionConstants.AVG:
+                operation = AccumulatorsOperators.avg(value);
+                break;
+            case OperatorExpressionConstants.MAX:
+                operation = AccumulatorsOperators.max(value);
+                break;
+            case OperatorExpressionConstants.MIN:
+                operation = AccumulatorsOperators.min(value);
+                break;
+            case OperatorExpressionConstants.SUM:
+                operation = AccumulatorsOperators.sum(value);
+                break;
+
             default:
                 throw new RuntimeException("dont't support this operator!" + operate);
         }

@@ -5,13 +5,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.BsonField;
 import com.mongodb.pipeline.transfer.constants.Constants;
+import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
+import org.bson.Document;
 
 import java.util.Arrays;
 
 /**
- * 累加器操作，主要用于group 阶段
+ * 累加器操作
+ * group 阶段需要单独处理
  * <pre>
  * Modify Information:
  * Author       Date          Description
@@ -19,13 +22,13 @@ import java.util.Arrays;
  * lilei        2019/9/16     Create this file
  * </pre>
  */
-public final class AccumulatorsOperators {
+public final class AccumulatorsOperators extends Operators {
 
     private AccumulatorsOperators() {
     }
 
     /**
-     * 平均操作解析
+     * group 阶段 avg 操作解析
      * Usage:
      * { $avg: <expression> }
      * { $avg: [ <expression1>, <expression2> ... ]  }
@@ -47,7 +50,7 @@ public final class AccumulatorsOperators {
     }
 
     /**
-     * 最大值操作解析
+     * group 阶段 max 操作解析
      * Usage:
      * { $max: <expression> }
      * { $max: [ <expression1>, <expression2> ... ]  }
@@ -69,7 +72,7 @@ public final class AccumulatorsOperators {
     }
 
     /**
-     * 最小值操作解析
+     * group 阶段 min 操作解析
      * Usage:
      * { $min: <expression> }
      * { $min: [ <expression1>, <expression2> ... ]  }
@@ -91,7 +94,7 @@ public final class AccumulatorsOperators {
     }
 
     /**
-     * 累加操作解析
+     * group 阶段 sum 操作解析
      * Usage:
      * { $sum: <expression> }
      * { $sum: [ <expression1>, <expression2> ... ]  }
@@ -132,10 +135,32 @@ public final class AccumulatorsOperators {
      * @param tmp
      * @return
      */
-    private static Object getValue(Object tmp){
+    private static Object getValue(Object tmp) {
         if (tmp.toString().startsWith(Constants.LBRACE)) {
             return ExpressionHelper.parse(tmp.toString().trim());
         }
         return TypesHelper.parse(tmp.toString());
+    }
+
+    /**
+     * $avg 操作符解析
+     * { $avg: <expression> }
+     * @param expression
+     * @return
+     */
+    public static Document avg(String expression) {
+        return new Document(OperatorExpressionConstants.AVG, getExpressionValue(expression));
+    }
+
+    public static Document max(String expression) {
+        return new Document(OperatorExpressionConstants.MAX, getExpressionValue(expression));
+    }
+
+    public static Document min(String expression) {
+        return new Document(OperatorExpressionConstants.MIN, getExpressionValue(expression));
+    }
+
+    public static Document sum(String expression) {
+        return new Document(OperatorExpressionConstants.SUM, getExpressionValue(expression));
     }
 }

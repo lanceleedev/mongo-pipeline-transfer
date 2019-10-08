@@ -17,7 +17,7 @@ import java.util.*;
  * lilei        2019/9/17     Create this file
  * </pre>
  */
-public final class ComparisonExpressionOperators {
+public final class ComparisonExpressionOperators extends Operators {
     private ComparisonExpressionOperators() {
     }
 
@@ -29,7 +29,7 @@ public final class ComparisonExpressionOperators {
      * @return
      */
     public static Document cmp(String value) {
-        return new Document(OperatorExpressionConstants.CMP, getValues(value));
+        return new Document(OperatorExpressionConstants.CMP, Arrays.asList(getValue(value)));
     }
 
     /**
@@ -39,7 +39,7 @@ public final class ComparisonExpressionOperators {
      * @return
      */
     public static Document eq(String value) {
-        return new Document(OperatorExpressionConstants.EQ, getValues(value));
+        return new Document(OperatorExpressionConstants.EQ, Arrays.asList(getValue(value)));
     }
 
     /**
@@ -49,7 +49,7 @@ public final class ComparisonExpressionOperators {
      * @return
      */
     public static Document gt(String value) {
-        return new Document(OperatorExpressionConstants.GT, getValues(value));
+        return new Document(OperatorExpressionConstants.GT, Arrays.asList(getValue(value)));
     }
 
     /**
@@ -59,7 +59,7 @@ public final class ComparisonExpressionOperators {
      * @return
      */
     public static Document gte(String value) {
-        return new Document(OperatorExpressionConstants.GTE, getValues(value));
+        return new Document(OperatorExpressionConstants.GTE, Arrays.asList(getValue(value)));
     }
 
     /**
@@ -69,7 +69,7 @@ public final class ComparisonExpressionOperators {
      * @return
      */
     public static Document lt(String value) {
-        return new Document(OperatorExpressionConstants.LT, getValues(value));
+        return new Document(OperatorExpressionConstants.LT, Arrays.asList(getValue(value)));
     }
 
     /**
@@ -79,7 +79,7 @@ public final class ComparisonExpressionOperators {
      * @return
      */
     public static Document lte(String value) {
-        return new Document(OperatorExpressionConstants.LTE, getValues(value));
+        return new Document(OperatorExpressionConstants.LTE, Arrays.asList(getValue(value)));
     }
 
     /**
@@ -89,7 +89,7 @@ public final class ComparisonExpressionOperators {
      * @return
      */
     public static Document ne(String value) {
-        return new Document(OperatorExpressionConstants.NE, getValues(value));
+        return new Document(OperatorExpressionConstants.NE, Arrays.asList(getValue(value)));
     }
 
     /**
@@ -98,21 +98,14 @@ public final class ComparisonExpressionOperators {
      * @param value
      * @return
      */
-    private static List<?> getValues(String value) {
+    private static Object[] getValue(String value) {
         JSONArray array = JSONObject.parseArray(value);
 
-        String expression1 = null;
-        Object expression2 = null;
-
+        Object[] exp = new Object[2];
         for (int i = 0, len = array.size(); i < len; i++) {
-            String obj = array.get(i).toString();
-            if (obj.contains(Constants.DOLLAR)) {
-                expression1 = obj;
-            } else {
-                expression2 = TypesHelper.parse(obj);
-            }
+            exp[i] = getExpressionValue(array.getString(i));
         }
 
-        return Arrays.asList(expression1, expression2);
+        return exp;
     }
 }
