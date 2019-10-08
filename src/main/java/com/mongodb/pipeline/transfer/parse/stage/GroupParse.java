@@ -1,10 +1,8 @@
 package com.mongodb.pipeline.transfer.parse.stage;
 
-import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.BsonField;
-import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
-import com.mongodb.pipeline.transfer.helper.AccumulatorHelper;
+import com.mongodb.pipeline.transfer.helper.GroupStageAccumulatorHelper;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
@@ -96,6 +94,6 @@ public final class GroupParse {
     private static BsonField getAccumulator(String field, String value) {
         Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(value);
         Map.Entry<String, ?> next = iterator.next();
-        return AccumulatorHelper.parse(field, next.getKey().trim(), next.getValue().toString().trim());
+        return GroupStageAccumulatorHelper.parse(field, next.getKey().trim(), next.getValue().toString().trim());
     }
 }

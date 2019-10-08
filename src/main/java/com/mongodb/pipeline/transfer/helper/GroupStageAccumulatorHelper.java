@@ -12,8 +12,8 @@ import com.mongodb.pipeline.transfer.parse.operator.AccumulatorsOperators;
  * lilei        2019/9/18     Create this file
  * </pre>
  */
-public final class AccumulatorHelper {
-    private AccumulatorHelper() {
+public final class GroupStageAccumulatorHelper {
+    private GroupStageAccumulatorHelper() {
     }
 
     /**
