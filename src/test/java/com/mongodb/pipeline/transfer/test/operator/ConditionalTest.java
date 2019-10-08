@@ -3,6 +3,7 @@ package com.mongodb.pipeline.transfer.test.operator;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -51,5 +52,17 @@ public class ConditionalTest {
                         .append("default", "No scores found."));
         System.out.println(result);
 
+    }
+
+    @Test
+    public void condTest(){
+        String json = "{$cond: {if: {$eq: [\"$MaxIncomeStatus\", NumberInt(\"10\")]}, " +
+                "then: NumberInt(\"10\"), " +
+                "else: {$cond: {if: {$gte: [\"$MaxIncomeStatus\", NumberInt(\"30\")]}, " +
+                "   then: NumberInt(\"30\"), " +
+                "   else: NumberInt(\"20\")}}}}";
+        String parseValue = JSONUtils.fastjsonParsePreDeal(json);
+        Document cond = ExpressionHelper.parse(parseValue);
+        System.out.println(cond);
     }
 }

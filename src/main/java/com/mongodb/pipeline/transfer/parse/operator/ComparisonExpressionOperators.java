@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
+import com.mongodb.pipeline.transfer.parse.operator.type.NumericOperators;
 import org.bson.Document;
 
 import java.util.*;

@@ -68,4 +68,15 @@ public final class TypesHelper {
         }
         return operation;
     }
+
+    /**
+     * 数据类型检测。判断是否为数据类型
+     *
+     * @param value
+     * @return
+     */
+    public static boolean typeCheck(String value) {
+        return (-1 != value.indexOf(Constants.NUMBER_INT)) || (-1 != value.indexOf(Constants.NUMBER_LONG))
+                || (-1 != value.indexOf(Constants.NUMBER_DECIMAL));
+    }
 }

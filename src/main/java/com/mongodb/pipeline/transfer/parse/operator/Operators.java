@@ -2,6 +2,7 @@ package com.mongodb.pipeline.transfer.parse.operator;
 
 import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
+import com.mongodb.pipeline.transfer.helper.TypesHelper;
 
 /**
  * 基类
@@ -20,8 +21,14 @@ public abstract class Operators {
      * @return
      */
     protected static Object getExpressionValue(String expression) {
+        /**
+         * 处理次序为表达式 > 数据类型 > 字符串
+         */
         if (expression.contains(Constants.LBRACE)) {
             return ExpressionHelper.parse(expression);
+        }
+        if (TypesHelper.typeCheck(expression)) {
+            return TypesHelper.parse(expression);
         }
         return expression;
     }

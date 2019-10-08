@@ -10,6 +10,7 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Field;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UnwindOptions;
+import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import org.bson.BsonInt32;
 import org.bson.BsonInt64;
 import org.bson.Document;
@@ -56,6 +57,14 @@ public class TmpTest {
 //        bsonList.add(Aggregates.group(new Document("收入状态", "$IncomeStatus"), Accumulators.avg("平均收入", "$Income")));
         bsonList.add(Aggregates.project(new Document("dateTime" , "$dateTime").append("交易日期","$交易日期")));
 
+
         return bsonList;
+    }
+
+    private List<Bson> getParseBson() {
+        String json = "{$cond: {if: {$eq: [\"$MaxIncomeStatus\", NumberInt(\"10\")]}, then: NumberInt(\"10\"), else: {$cond: {if: {$gte: [\"$MaxIncomeStatus\", NumberInt(\"30\")]}, then: NumberInt(\"30\"), else: NumberInt(\"20\")}}}}";
+
+        Bson bson = ExpressionHelper.parse(json);
+        return null;
     }
 }

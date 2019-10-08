@@ -52,6 +52,15 @@ public final class Constants {
     public static final String CONVERT_ON_NULL = "onNull";
 
     /**
+     * cond 操作符
+     */
+    public static final String COND_IF = "if";
+
+    public static final String COND_THEN = "then";
+
+    public static final String COND_ELSE = "else";
+
+    /**
      * switch 操作符
      */
     public static final String SWITCH_BRANCHES = "branches";

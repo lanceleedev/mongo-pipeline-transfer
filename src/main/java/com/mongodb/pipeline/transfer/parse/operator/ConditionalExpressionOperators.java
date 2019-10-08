@@ -29,31 +29,30 @@ public final class ConditionalExpressionOperators extends Operators {
 
     /**
      * cond 操作符解析
-     *
-     * @param expression
+     * <code>
+     * { $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case-> } }
+     * or
+     * { $cond: [ <boolean-expression>, <true-case>, <false-case> ] }
+     * </code>
+     * @param json 操作符内容
      * @return
      */
-    public static Document cond(String expression) {
-        Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(expression);
-        Object condIf = null;
-        Object condThen = null;
-        Object condElse = null;
-        while (iterator.hasNext()) {
-            Map.Entry<String, ?> next = iterator.next();
-            String key = next.getKey().trim();
-            String val = next.getValue().toString().trim();
-
-            Object tmp = getExpressionValue(val);
-            if ("if".equals(key)) {
-                condIf = tmp;
-            } else if ("then".equals(key)) {
-                condThen = tmp;
-            } else {
-                condElse = tmp;
+    public static Document cond(String json) {
+        // cond语法格式判断
+        if (json.startsWith(Constants.LBRACKET)) {
+            JSONArray array = JSONObject.parseArray(json);
+            Object[] expressions = new Object[3];
+            for (int i = 0, len = array.size(); i < len; i++) {
+                expressions[i] = getExpressionValue(array.getString(i));
             }
+            return new Document(OperatorExpressionConstants.COND, Arrays.asList(expressions));
         }
 
-        return new Document(OperatorExpressionConstants.COND, Arrays.asList(condIf, condThen, condElse));
+        JSONObject obj = JSONObject.parseObject(json);
+        String condIf = obj.getString(Constants.COND_IF);
+        String condThen = obj.getString(Constants.COND_THEN);
+        String condElse = obj.getString(Constants.COND_ELSE);
+        return new Document(OperatorExpressionConstants.COND, Arrays.asList(getExpressionValue(condIf), getExpressionValue(condThen), getExpressionValue(condElse)));
     }
 
     /**
