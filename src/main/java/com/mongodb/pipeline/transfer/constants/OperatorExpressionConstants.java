@@ -137,7 +137,6 @@ public final class OperatorExpressionConstants {
     public static final String SUBSTR_BYTES = "$substrBytes";
     public static final String SUBSTR_CP = "$substrCP";
     public static final String TO_LOWER = "$toLower";
-    public static final String TO_STRING = "$toString";
     public static final String TRIM = "$trim";
     public static final String TO_UPPER = "$toUpper";
 
@@ -172,6 +171,7 @@ public final class OperatorExpressionConstants {
     public static final String TO_INT = "$toInt";
     public static final String TO_LONG = "$toLong";
     public static final String TO_OBJECT_ID = "$toObjectId";
+    public static final String TO_STRING = "$toString";
     public static final String TYPE = "$type";
 
     /**

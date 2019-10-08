@@ -40,6 +40,25 @@ public final class Constants {
 
     public static final String NUMBER_DECIMAL = "NumberDecimal";
 
+    /**
+     * convert 操作符
+     */
+    public static final String CONVERT_INPUT = "input";
+
+    public static final String CONVERT_TO = "to";
+
+    public static final String CONVERT_ON_ERROR = "onError";
+
+    public static final String CONVERT_ON_NULL = "onNull";
+
+    /**
+     * switch 操作符
+     */
+    public static final String SWITCH_BRANCHES = "branches";
+
+    public static final String SWITCH_DEFAULT = "default";
+
+
     private Constants() {
     }
 }

@@ -5,6 +5,7 @@ import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.parse.operator.AccumulatorsOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ComparisonExpressionOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ConditionalExpressionOperators;
+import com.mongodb.pipeline.transfer.parse.operator.TypeExpressionOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.BooleanOperators;
 import com.mongodb.pipeline.transfer.parse.operator.type.StringOperators;
 import com.mongodb.pipeline.transfer.parse.operator.ArithmeticExpressionOperators;
@@ -96,14 +97,26 @@ public final class ExpressionHelper {
             case OperatorExpressionConstants.IF_NULL:
                 operation = ConditionalExpressionOperators.ifNull(value);
                 break;
+            case OperatorExpressionConstants.SWITCH:
+                operation = ConditionalExpressionOperators.mSwitch(value);
+                break;
 
+            case OperatorExpressionConstants.CONCAT:
+                operation = StringOperators.concat(value);
+                break;
             case OperatorExpressionConstants.SUBSTR:
                 operation = StringOperators.substr(value);
                 break;
+            case OperatorExpressionConstants.TO_STRING:
+                operation = StringOperators.toString(value);
+                break;
 
+            case OperatorExpressionConstants.CONVERT:
+                operation = TypeExpressionOperators.convert(value);
+                break;
 
             default:
-                throw new RuntimeException("dont't support this operator!" + operation);
+                throw new RuntimeException("dont't support this operator!" + operate);
         }
         return operation;
     }

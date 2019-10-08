@@ -17,7 +17,7 @@ import java.util.Map;
  * lilei        2019/9/11     Create this file
  * </pre>
  */
-public class MathExpTest {
+public class ArithmeticTest {
 
     @Test
     public void addTest() {

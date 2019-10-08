@@ -7,6 +7,7 @@ import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
+import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import org.bson.Document;
 
 import java.util.Arrays;
@@ -22,12 +23,12 @@ import java.util.Map;
  * lilei        2019/9/18     Create this file
  * </pre>
  */
-public final class ConditionalExpressionOperators {
+public final class ConditionalExpressionOperators extends Operators {
     private ConditionalExpressionOperators() {
     }
 
     /**
-     * <p>cond 操作符解析
+     * cond 操作符解析
      *
      * @param expression
      * @return
@@ -42,12 +43,7 @@ public final class ConditionalExpressionOperators {
             String key = next.getKey().trim();
             String val = next.getValue().toString().trim();
 
-            Object tmp = null;
-            if (val.startsWith(Constants.LBRACE)) {
-                tmp = ExpressionHelper.parse(val);
-            } else {
-                tmp = TypesHelper.parse(val);
-            }
+            Object tmp = getExpressionValue(val);
             if ("if".equals(key)) {
                 condIf = tmp;
             } else if ("then".equals(key)) {
@@ -61,7 +57,7 @@ public final class ConditionalExpressionOperators {
     }
 
     /**
-     * ifNull操作符解析
+     * ifNull 操作符解析
      * { $ifNull: [ <expression>, <replacement-expression-if-null> ] }
      *
      * @param expression
@@ -88,4 +84,37 @@ public final class ConditionalExpressionOperators {
         return new Document(OperatorExpressionConstants.IF_NULL, Arrays.asList(fieldExpression, replacement));
     }
 
+    /**
+     * switch 操作符解析
+     * <code>
+     * $switch: {
+     *    branches: [
+     *       { case: <expression>, then: <expression> },
+     *       { case: <expression>, then: <expression> },
+     *       ...
+     *    ],
+     *    default: <expression>  // Optional.
+     * }
+     * </code>
+     *
+     * eg：
+     * <code>
+     * {
+     *      $switch: {
+     *      branches: [
+     *        { case: { $eq: [ { $type: "$convertedPrice" }, "string" ] }, then: "NaN" },
+     *        { case: { $eq: [ { $type: "$convertedQty" }, "string" ] }, then: "NaN" },
+     *      ],
+     *      default: { $multiply: [ "$convertedPrice", "$convertedQty" ] }
+     *  }
+     *  </code>
+     *
+     * @param json switch 操作符内容
+     * @return
+     */
+    public static Document mSwitch(String json) {
+       
+
+        return null;
+    }
 }

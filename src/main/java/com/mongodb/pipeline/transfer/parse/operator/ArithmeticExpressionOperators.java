@@ -22,7 +22,7 @@ import java.util.Map;
  * lilei        2019年6月12日  Create this file
  * </pre>
  */
-public final class ArithmeticExpressionOperators {
+public final class ArithmeticExpressionOperators extends Operators {
     private ArithmeticExpressionOperators() {
     }
 
@@ -48,12 +48,7 @@ public final class ArithmeticExpressionOperators {
         JSONArray array = JSONObject.parseArray(expression);
         Object[] values = new Object[array.size()];
         for (int i = 0, len = array.size(); i < len; i++) {
-            Object obj = array.get(i);
-            if (obj.toString().startsWith(Constants.LBRACE)) {
-                values[i] = ExpressionHelper.parse(obj.toString().trim());
-            } else {
-                values[i] = obj;
-            }
+            values[i] = getExpressionValue(array.get(i).toString());
         }
 
         return new Document(OperatorExpressionConstants.SUBTRACT, Arrays.asList(values));
