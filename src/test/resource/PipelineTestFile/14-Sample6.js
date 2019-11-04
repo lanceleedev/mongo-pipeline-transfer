@@ -38,9 +38,9 @@
     $group:{
         _id: {
             Quarter: {
-                $cond: { if: { $gte: [{ $month: "$dateTime" }, 10]}, then: "Q4", else: {
-                        $cond: {  if: { $gte: [{ $month: "$dateTime" }, 7]}, then: "Q3", else: {
-                                $cond: { if: { $gte: [{ $month: "$dateTime" }, 4]}, then: "Q2", else: "Q1" }
+                $cond: { if: { $gte: [{ $month: "$dateTime" }, NumberInt("10")]}, then: {$concat: [{$toString : {$year: "$dateTime"}}, "年", "Q4"]}, else: {
+                        $cond: {  if: { $gte: [{ $month: "$dateTime" }, NumberInt("7")]}, then: {$concat: [{$toString : {$year: "$dateTime"}}, "年", "Q1"]}, else: {
+                                $cond: { if: { $gte: [{ $month: "$dateTime" }, NumberInt("4")]}, then: {$concat: [{$toString : {$year: "$dateTime"}}, "年", "Q2"]}, else: {$concat: [{$year: "$dateTime"}, "年", "Q1"]} }
                             }
                         }
                     }
@@ -66,7 +66,7 @@
         _id: 0,
         季度: "$_id.Quarter",
         渠道: "$_id.ChannelName",
-        商户: "$_id.InstitutionPakrentName",
+        商户: "$_id.InstitutionParentName",
         机构: "$_id.InstitutionName",
         业务类型: "$_id.BusinessType",
         交易笔数: "$TotalTxNum",

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mongodb</groupId>
     <artifactId>mongo-pipeline-transfer</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <properties>
         <log4j2-version>2.11.1</log4j2-version>

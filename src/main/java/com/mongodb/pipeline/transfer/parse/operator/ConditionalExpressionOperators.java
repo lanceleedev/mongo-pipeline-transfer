@@ -64,22 +64,23 @@ public final class ConditionalExpressionOperators extends Operators {
      */
     public static Document ifNull(String expression) {
         JSONArray array = JSONObject.parseArray(expression);
-        String str1 = array.get(0).toString().trim();
-        String str2 = array.get(1).toString().trim();
+        String expStr = array.get(0).toString().trim();
+        String repStr = array.get(1).toString().trim();
 
         Object fieldExpression = null;
-        if (str1.startsWith("$")) {
-            fieldExpression = str1;
+        if (expStr.startsWith(Constants.LBRACE)) {
+            fieldExpression =  ExpressionHelper.parse(expStr);
         } else {
-            fieldExpression = TypesHelper.parse(str1);
+            fieldExpression = TypesHelper.parse(expStr);
         }
 
         Object replacement = null;
-        if (str2.startsWith("$")) {
-            replacement = str2;
+        if (repStr.startsWith(Constants.LBRACE)) {
+            replacement =  ExpressionHelper.parse(repStr);
         } else {
-            replacement = TypesHelper.parse(str2);
+            replacement = TypesHelper.parse(repStr);
         }
+
         return new Document(OperatorExpressionConstants.IF_NULL, Arrays.asList(fieldExpression, replacement));
     }
 
