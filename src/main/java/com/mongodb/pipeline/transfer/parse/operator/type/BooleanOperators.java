@@ -30,32 +30,31 @@ public final class BooleanOperators {
      * { $and: [ null, true ] }	 	 	 	 	 	false
      * { $and: [ 0, true ] }	 	 	 	 	 	false
      *
-     * @param value
+     * @param expression 表达式
      * @return
      */
-    public static Document and(String value) {
-        return new Document(OperatorExpressionConstants.AND, Arrays.asList(getValues(value)));
+    public static Document and(String expression) {
+        return new Document(OperatorExpressionConstants.AND, Arrays.asList(getValues(expression)));
     }
 
     /**
      * { $or: [ <expression1>, <expression2>, ... ] }
      *
-     * @param value
+     * @param expression 表达式
      * @return
      */
-    public static Document or(String value) {
-        return new Document(OperatorExpressionConstants.OR, Arrays.asList(getValues(value)));
+    public static Document or(String expression) {
+        return new Document(OperatorExpressionConstants.OR, Arrays.asList(getValues(expression)));
     }
 
     /**
      * { $not: [ <expression> ] }
-     * TODO
      *
-     * @param value
+     * @param expression 表达式
      * @return
      */
-    public static Document not(String value) {
-        return null;
+    public static Document not(String expression) {
+        return new Document(OperatorExpressionConstants.NOT, Arrays.asList(getValues(expression)));
     }
 
     /**

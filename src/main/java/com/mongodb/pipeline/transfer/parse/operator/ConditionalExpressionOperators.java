@@ -5,14 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
+import com.mongodb.pipeline.transfer.helper.OperatorHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
-import com.mongodb.pipeline.transfer.util.JSONUtils;
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import org.bson.Document;
 
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * 条件表达式操作解析
@@ -23,7 +20,7 @@ import java.util.Map;
  * lilei        2019/9/18     Create this file
  * </pre>
  */
-public final class ConditionalExpressionOperators extends Operators {
+public final class ConditionalExpressionOperators {
     private ConditionalExpressionOperators() {
     }
 
@@ -43,7 +40,7 @@ public final class ConditionalExpressionOperators extends Operators {
             JSONArray array = JSONObject.parseArray(json);
             Object[] expressions = new Object[3];
             for (int i = 0, len = array.size(); i < len; i++) {
-                expressions[i] = getExpressionValue(array.getString(i));
+                expressions[i] = OperatorHelper.getExpressionValue(array.getString(i));
             }
             return new Document(OperatorExpressionConstants.COND, Arrays.asList(expressions));
         }
@@ -52,7 +49,8 @@ public final class ConditionalExpressionOperators extends Operators {
         String condIf = obj.getString(Constants.COND_IF);
         String condThen = obj.getString(Constants.COND_THEN);
         String condElse = obj.getString(Constants.COND_ELSE);
-        return new Document(OperatorExpressionConstants.COND, Arrays.asList(getExpressionValue(condIf), getExpressionValue(condThen), getExpressionValue(condElse)));
+        return new Document(OperatorExpressionConstants.COND, Arrays.asList(OperatorHelper.getExpressionValue(condIf),
+                OperatorHelper.getExpressionValue(condThen), OperatorHelper.getExpressionValue(condElse)));
     }
 
     /**
@@ -69,14 +67,14 @@ public final class ConditionalExpressionOperators extends Operators {
 
         Object fieldExpression = null;
         if (expStr.startsWith(Constants.LBRACE)) {
-            fieldExpression =  ExpressionHelper.parse(expStr);
+            fieldExpression = ExpressionHelper.parse(expStr);
         } else {
             fieldExpression = TypesHelper.parse(expStr);
         }
 
         Object replacement = null;
         if (repStr.startsWith(Constants.LBRACE)) {
-            replacement =  ExpressionHelper.parse(repStr);
+            replacement = ExpressionHelper.parse(repStr);
         } else {
             replacement = TypesHelper.parse(repStr);
         }
@@ -122,8 +120,8 @@ public final class ConditionalExpressionOperators extends Operators {
         for (int i = 0, len = array.size(); i < len; i++) {
             String caseJson = array.get(i).toString();
             JSONObject objTmp = JSONObject.parseObject(caseJson);
-            branches[i] = new Document(Constants.SWITCH_CASE, getExpressionValue(objTmp.getString(Constants.SWITCH_CASE)))
-                    .append(Constants.SWITCH_THEN, getExpressionValue(objTmp.getString(Constants.SWITCH_THEN)));
+            branches[i] = new Document(Constants.SWITCH_CASE, OperatorHelper.getExpressionValue(objTmp.getString(Constants.SWITCH_CASE)))
+                    .append(Constants.SWITCH_THEN, OperatorHelper.getExpressionValue(objTmp.getString(Constants.SWITCH_THEN)));
         }
         Document switchDocument = new Document(Constants.SWITCH_BRANCHES, Arrays.asList(branches));
 

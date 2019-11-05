@@ -1,26 +1,29 @@
-package com.mongodb.pipeline.transfer.parse.operator;
+package com.mongodb.pipeline.transfer.helper;
 
 import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 
 /**
- * 基类
+ * 操作helper
  * <pre>
  * Modify Information:
  * Author       Date          Description
  * ============ ============= ============================
- * lilei        2019/10/8     Create this file
+ * lilei        2019/11/5     Create this file
  * </pre>
  */
-public abstract class Operators {
+public final class OperatorHelper {
+    private OperatorHelper() {
+
+    }
 
     /**
      * 获取表达式的值
      * @param expression 表达式
      * @return
      */
-    protected static Object getExpressionValue(String expression) {
+    public static Object getExpressionValue(String expression) {
         /**
          * 处理次序为表达式 > 数据类型 > 字符串
          */

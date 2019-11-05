@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
-import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
+import com.mongodb.pipeline.transfer.helper.OperatorHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import com.mongodb.pipeline.transfer.util.JSONUtils;
 import org.bson.Document;
@@ -22,7 +22,7 @@ import java.util.Map;
  * lilei        2019年6月12日  Create this file
  * </pre>
  */
-public final class ArithmeticExpressionOperators extends Operators {
+public final class ArithmeticExpressionOperators {
     private ArithmeticExpressionOperators() {
     }
 
@@ -48,7 +48,7 @@ public final class ArithmeticExpressionOperators extends Operators {
         JSONArray array = JSONObject.parseArray(expression);
         Object[] values = new Object[array.size()];
         for (int i = 0, len = array.size(); i < len; i++) {
-            values[i] = getExpressionValue(array.get(i).toString());
+            values[i] = OperatorHelper.getExpressionValue(array.get(i).toString());
         }
 
         return new Document(OperatorExpressionConstants.SUBTRACT, Arrays.asList(values));

@@ -2,13 +2,11 @@ package com.mongodb.pipeline.transfer.parse.operator;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
-import com.mongodb.pipeline.transfer.helper.TypesHelper;
-import com.mongodb.pipeline.transfer.parse.operator.type.NumericOperators;
+import com.mongodb.pipeline.transfer.helper.OperatorHelper;
 import org.bson.Document;
 
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * <pre>
@@ -18,7 +16,7 @@ import java.util.*;
  * lilei        2019/9/17     Create this file
  * </pre>
  */
-public final class ComparisonExpressionOperators extends Operators {
+public final class ComparisonExpressionOperators {
     private ComparisonExpressionOperators() {
     }
 
@@ -104,7 +102,7 @@ public final class ComparisonExpressionOperators extends Operators {
 
         Object[] exp = new Object[2];
         for (int i = 0, len = array.size(); i < len; i++) {
-            exp[i] = getExpressionValue(array.getString(i));
+            exp[i] = OperatorHelper.getExpressionValue(array.getString(i));
         }
 
         return exp;

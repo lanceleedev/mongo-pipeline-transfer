@@ -3,6 +3,7 @@ package com.mongodb.pipeline.transfer.parse.operator;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
+import com.mongodb.pipeline.transfer.helper.OperatorHelper;
 import org.bson.Document;
 
 /**
@@ -14,7 +15,7 @@ import org.bson.Document;
  * lilei        2019/9/16     Create this file
  * </pre>
  */
-public final class DateExpressionOperators extends Operators {
+public final class DateExpressionOperators {
     private DateExpressionOperators() {
     }
 
@@ -40,22 +41,22 @@ public final class DateExpressionOperators extends Operators {
         Object onErrorVal = expObj.get(Constants.DATE_ON_ERROR);
         Object onNullVal = expObj.get(Constants.DATE_ON_NULL);
 
-        Document docContent = new Document(Constants.DATEFROMSTRING_DATESTRING, getExpressionValue(dateStringVal));
+        Document docContent = new Document(Constants.DATEFROMSTRING_DATESTRING, OperatorHelper.getExpressionValue(dateStringVal));
 
         if (null != formatVal) {
             docContent.append(Constants.DATE_FORMAT, formatVal.toString());
         }
 
         if (null != timezoneVal) {
-            docContent.append(Constants.DATE_TIMEZONE, getExpressionValue(timezoneVal.toString()));
+            docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
         }
 
         if (null != onErrorVal) {
-            docContent.append(Constants.DATE_ON_ERROR, getExpressionValue(onErrorVal.toString()));
+            docContent.append(Constants.DATE_ON_ERROR, OperatorHelper.getExpressionValue(onErrorVal.toString()));
         }
 
         if (null != onNullVal) {
-            docContent.append(Constants.DATE_ON_NULL, getExpressionValue(onNullVal.toString()));
+            docContent.append(Constants.DATE_ON_NULL, OperatorHelper.getExpressionValue(onNullVal.toString()));
         }
 
         return new Document(OperatorExpressionConstants.DATE_FROM_STRING, docContent);
@@ -81,14 +82,14 @@ public final class DateExpressionOperators extends Operators {
         Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
         Object onNullVal = expObj.get(Constants.DATE_ON_NULL);
 
-        Document docContent = new Document(Constants.DATE_DATE, getExpressionValue(dateVal)).append(Constants.DATE_FORMAT, formatVal.toString());
+        Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal)).append(Constants.DATE_FORMAT, formatVal.toString());
 
         if (null != timezoneVal) {
-            docContent.append(Constants.DATE_TIMEZONE, getExpressionValue(timezoneVal.toString()));
+            docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
         }
 
         if (null != onNullVal) {
-            docContent.append(Constants.DATE_ON_NULL, getExpressionValue(onNullVal.toString()));
+            docContent.append(Constants.DATE_ON_NULL, OperatorHelper.getExpressionValue(onNullVal.toString()));
         }
 
         return new Document(OperatorExpressionConstants.DATE_TO_STRING, docContent);
@@ -112,15 +113,15 @@ public final class DateExpressionOperators extends Operators {
             JSONObject expObj = JSONObject.parseObject(json);
             String dateVal = expObj.getString(Constants.DATE_DATE);
             Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
-            Document docContent = new Document(Constants.DATE_DATE, getExpressionValue(dateVal));
+            Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal));
 
             if (null != timezoneVal) {
-                docContent.append(Constants.DATE_TIMEZONE, getExpressionValue(timezoneVal.toString()));
+                docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
             }
 
             return new Document(OperatorExpressionConstants.YEAR, docContent);
         }
-        return new Document(OperatorExpressionConstants.YEAR, getExpressionValue(json));
+        return new Document(OperatorExpressionConstants.YEAR, OperatorHelper.getExpressionValue(json));
     }
 
     /**
@@ -141,15 +142,15 @@ public final class DateExpressionOperators extends Operators {
             JSONObject expObj = JSONObject.parseObject(json);
             String dateVal = expObj.getString(Constants.DATE_DATE);
             Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
-            Document docContent = new Document(Constants.DATE_DATE, getExpressionValue(dateVal));
+            Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal));
 
             if (null != timezoneVal) {
-                docContent.append(Constants.DATE_TIMEZONE, getExpressionValue(timezoneVal.toString()));
+                docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
             }
 
             return new Document(OperatorExpressionConstants.MONTH, docContent);
         }
-        return new Document(OperatorExpressionConstants.MONTH, getExpressionValue(json));
+        return new Document(OperatorExpressionConstants.MONTH, OperatorHelper.getExpressionValue(json));
 
     }
 }

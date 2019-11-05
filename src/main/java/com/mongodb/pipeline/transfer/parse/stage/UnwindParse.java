@@ -34,11 +34,11 @@ public final class UnwindParse {
             Boolean preserveNullAndEmptyArrays = jsonObject.getBoolean("preserveNullAndEmptyArrays");
             if (null == includeArrayIndex && null == preserveNullAndEmptyArrays) {
                 unwind = Aggregates.unwind(path);
-            } else if (null == includeArrayIndex && null != preserveNullAndEmptyArrays) {
+            } else if (null == includeArrayIndex) {
                 unwind = Aggregates.unwind(path, new UnwindOptions().preserveNullAndEmptyArrays(preserveNullAndEmptyArrays));
-            } else if (null != includeArrayIndex && null == preserveNullAndEmptyArrays) {
+            } else if (null == preserveNullAndEmptyArrays) {
                 unwind = Aggregates.unwind(path, new UnwindOptions().includeArrayIndex(includeArrayIndex));
-            } else if (null != includeArrayIndex && null != preserveNullAndEmptyArrays) {
+            } else {
                 unwind = Aggregates.unwind(path, new UnwindOptions().includeArrayIndex(includeArrayIndex)
                         .preserveNullAndEmptyArrays(preserveNullAndEmptyArrays));
             }

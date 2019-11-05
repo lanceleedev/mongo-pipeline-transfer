@@ -7,6 +7,7 @@ import com.mongodb.client.model.BsonField;
 import com.mongodb.pipeline.transfer.constants.Constants;
 import com.mongodb.pipeline.transfer.constants.OperatorExpressionConstants;
 import com.mongodb.pipeline.transfer.helper.ExpressionHelper;
+import com.mongodb.pipeline.transfer.helper.OperatorHelper;
 import com.mongodb.pipeline.transfer.helper.TypesHelper;
 import org.bson.Document;
 
@@ -22,7 +23,7 @@ import java.util.Arrays;
  * lilei        2019/9/16     Create this file
  * </pre>
  */
-public final class AccumulatorsOperators extends Operators {
+public final class AccumulatorsOperators {
 
     private AccumulatorsOperators() {
     }
@@ -149,18 +150,18 @@ public final class AccumulatorsOperators extends Operators {
      * @return
      */
     public static Document avg(String expression) {
-        return new Document(OperatorExpressionConstants.AVG, getExpressionValue(expression));
+        return new Document(OperatorExpressionConstants.AVG, OperatorHelper.getExpressionValue(expression));
     }
 
     public static Document max(String expression) {
-        return new Document(OperatorExpressionConstants.MAX, getExpressionValue(expression));
+        return new Document(OperatorExpressionConstants.MAX, OperatorHelper.getExpressionValue(expression));
     }
 
     public static Document min(String expression) {
-        return new Document(OperatorExpressionConstants.MIN, getExpressionValue(expression));
+        return new Document(OperatorExpressionConstants.MIN, OperatorHelper.getExpressionValue(expression));
     }
 
     public static Document sum(String expression) {
-        return new Document(OperatorExpressionConstants.SUM, getExpressionValue(expression));
+        return new Document(OperatorExpressionConstants.SUM, OperatorHelper.getExpressionValue(expression));
     }
 }

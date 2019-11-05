@@ -1,7 +1,12 @@
 package com.mongodb.pipeline.transfer.helper;
 
 import com.mongodb.pipeline.transfer.constants.StagesConstants;
-import com.mongodb.pipeline.transfer.parse.stage.*;
+import com.mongodb.pipeline.transfer.parse.stage.AddFieldsParse;
+import com.mongodb.pipeline.transfer.parse.stage.GroupParse;
+import com.mongodb.pipeline.transfer.parse.stage.LookupParse;
+import com.mongodb.pipeline.transfer.parse.stage.MatchParse;
+import com.mongodb.pipeline.transfer.parse.stage.ProjectParse;
+import com.mongodb.pipeline.transfer.parse.stage.UnwindParse;
 import org.bson.conversions.Bson;
 
 /**

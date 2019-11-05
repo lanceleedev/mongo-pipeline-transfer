@@ -31,7 +31,7 @@ public final class JSONUtils {
      * @param json
      * @return
      */
-    public static Iterator<? extends Map.Entry<String, ?>> getJSONObjectIterator(String json) {
+    public static Iterator<Map.Entry<String, Object>> getJSONObjectIterator(String json) {
         JSONObject obj = JSONObject.parseObject(json);
         return obj.entrySet().iterator();
     }

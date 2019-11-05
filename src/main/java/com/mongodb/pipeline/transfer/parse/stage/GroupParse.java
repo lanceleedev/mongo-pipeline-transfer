@@ -33,7 +33,7 @@ public final class GroupParse {
      * @return
      */
     public static Bson process(String json) {
-        Document _id = null;
+        Document groupBy = null;
         List<BsonField> fieldAccumulators = new ArrayList<>();
 
         Iterator<? extends Map.Entry<String, ?>> iterator = JSONUtils.getJSONObjectIterator(json);
@@ -45,13 +45,13 @@ public final class GroupParse {
             key = next.getKey().trim();
             value = next.getValue().toString().trim();
             if ("_id".equals(key)) {
-                _id = getGroupByField(value);
+                groupBy = getGroupByField(value);
             } else {
                 fieldAccumulators.add(getAccumulator(key, value));
             }
         }
 
-        return Aggregates.group(_id, fieldAccumulators);
+        return Aggregates.group(groupBy, fieldAccumulators);
     }
 
     /**
