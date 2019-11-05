@@ -78,16 +78,16 @@ public final class Constants {
 
     public static final String DATE_TIMEZONE = "timezone";
 
+    public static final String DATE_FORMAT = "format";
+
+    public static final String DATE_ON_ERROR = "onError";
+
+    public static final String DATE_ON_NULL = "onNull";
+
     /**
      * dateFromString 操作符
      */
     public static final String DATEFROMSTRING_DATESTRING = "dateString";
-
-    public static final String DATEFROMSTRING_FORMAT = "format";
-
-    public static final String DATEFROMSTRING_ON_ERROR = "onError";
-
-    public static final String DATEFROMSTRING_ON_NULL = "onNull";
 
 
     private Constants() {

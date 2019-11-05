@@ -35,15 +35,15 @@ public final class DateExpressionOperators extends Operators {
     public static Document dateFromString(String json) {
         JSONObject expObj = JSONObject.parseObject(json);
         String dateStringVal = expObj.getString(Constants.DATEFROMSTRING_DATESTRING);
-        Object formatVal = expObj.get(Constants.DATEFROMSTRING_FORMAT);
+        Object formatVal = expObj.get(Constants.DATE_FORMAT);
         Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
-        Object onErrorVal = expObj.get(Constants.DATEFROMSTRING_ON_ERROR);
-        Object onNullVal = expObj.get(Constants.DATEFROMSTRING_ON_NULL);
+        Object onErrorVal = expObj.get(Constants.DATE_ON_ERROR);
+        Object onNullVal = expObj.get(Constants.DATE_ON_NULL);
 
         Document docContent = new Document(Constants.DATEFROMSTRING_DATESTRING, getExpressionValue(dateStringVal));
 
         if (null != formatVal) {
-            docContent.append(Constants.DATEFROMSTRING_FORMAT, formatVal.toString());
+            docContent.append(Constants.DATE_FORMAT, formatVal.toString());
         }
 
         if (null != timezoneVal) {
@@ -51,14 +51,47 @@ public final class DateExpressionOperators extends Operators {
         }
 
         if (null != onErrorVal) {
-            docContent.append(Constants.DATEFROMSTRING_ON_ERROR, getExpressionValue(onErrorVal.toString()));
+            docContent.append(Constants.DATE_ON_ERROR, getExpressionValue(onErrorVal.toString()));
         }
 
         if (null != onNullVal) {
-            docContent.append(Constants.DATEFROMSTRING_ON_NULL, getExpressionValue(onNullVal.toString()));
+            docContent.append(Constants.DATE_ON_NULL, getExpressionValue(onNullVal.toString()));
         }
 
         return new Document(OperatorExpressionConstants.DATE_FROM_STRING, docContent);
+    }
+
+    /**
+     * $dateToString 操作符解析
+     * <code>
+     * { $dateToString: {
+     *     date: <dateExpression>,
+     *     format: <formatString>,
+     *     timezone: <tzExpression>, // Optional.
+     *     onNull: <expression>      // Optional.
+     * } }
+     * </code>
+     * @param json 操作符内容
+     * @return
+     */
+    public static Document dateToString(String json) {
+        JSONObject expObj = JSONObject.parseObject(json);
+        String dateVal = expObj.getString(Constants.DATE_DATE);
+        Object formatVal = expObj.get(Constants.DATE_FORMAT);
+        Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
+        Object onNullVal = expObj.get(Constants.DATE_ON_NULL);
+
+        Document docContent = new Document(Constants.DATE_DATE, getExpressionValue(dateVal)).append(Constants.DATE_FORMAT, formatVal.toString());
+
+        if (null != timezoneVal) {
+            docContent.append(Constants.DATE_TIMEZONE, getExpressionValue(timezoneVal.toString()));
+        }
+
+        if (null != onNullVal) {
+            docContent.append(Constants.DATE_ON_NULL, getExpressionValue(onNullVal.toString()));
+        }
+
+        return new Document(OperatorExpressionConstants.DATE_TO_STRING, docContent);
     }
 
     /**
