@@ -31,6 +31,13 @@ public class DateTest {
 
     @Test
     public void yearTest() {
+        String json = "{ $year: { $dateFromString: { dateString: \"$交易日期\", format: \"%Y%m%d\" } }}";
+        String parseValue = JSONUtils.fastjsonParsePreDeal(json);
 
+        Document year = ExpressionHelper.parse(parseValue);
+        System.out.println(year);
+
+        Document result = new Document("$year", new Document("$dateFromString", new Document("dateString",  "$交易日期").append("format","%Y%m%d")));
+        System.out.println(result);
     }
 }

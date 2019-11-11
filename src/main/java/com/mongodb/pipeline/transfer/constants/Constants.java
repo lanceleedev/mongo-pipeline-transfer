@@ -89,6 +89,11 @@ public final class Constants {
      */
     public static final String DATEFROMSTRING_DATESTRING = "dateString";
 
+    /**
+     * 字符串 操作符
+     */
+    public static final String STRING_INPUT = "input";
+    public static final String STRING_CHARS = "chars";
 
     private Constants() {
     }

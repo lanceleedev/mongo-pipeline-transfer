@@ -124,6 +124,15 @@ public final class ExpressionHelper {
             case OperatorExpressionConstants.TO_STRING:
                 operation = StringOperators.toString(value);
                 break;
+            case OperatorExpressionConstants.TO_LOWER:
+                operation = StringOperators.toLower(value);
+                break;
+            case OperatorExpressionConstants.TRIM:
+                operation = StringOperators.trim(value);
+                break;
+            case OperatorExpressionConstants.TO_UPPER:
+                operation = StringOperators.toUpper(value);
+                break;
 
             case OperatorExpressionConstants.CONVERT:
                 operation = TypeExpressionOperators.convert(value);

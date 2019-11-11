@@ -53,7 +53,7 @@ public final class StringOperators {
     /**
      * concat 操作符解析
      * { $concat: [ <expression1>, <expression2>, ... ] }
-     * eg:
+     * Sample:
      * { $concat: [ { $convert: { input: "$Income", to: "string"}}, " - ", "元" ] }
      *
      * @param expressions 表达式
@@ -84,6 +84,65 @@ public final class StringOperators {
     public static Document toString(String expression) {
         return new Document(OperatorExpressionConstants.TO_STRING, OperatorHelper.getExpressionValue(expression));
     }
+
+
+    /**
+     * toLower 操作符解析
+     *
+     * <code>
+     *     { $toLower: <expression> }
+     * </code>
+     *
+     * @param expression 表达式
+     * @return
+     */
+    public static Document toLower(String expression) {
+        return new Document(OperatorExpressionConstants.TO_LOWER, OperatorHelper.getExpressionValue(expression));
+    }
+
+    /**
+     * trim 操作符解析
+     *
+     * <code>
+     *     { $trim: {
+     *          input: <string>,
+     *          chars: <string>    // Optional.
+     *     } }
+     * </code>
+     *
+     * @param json 操作符内容
+     * @return
+     */
+    public static Document trim(String json) {
+        JSONObject obj = JSONObject.parseObject(json);
+        String input = obj.getString(Constants.STRING_INPUT);
+        Object chars = obj.get(Constants.STRING_CHARS);
+
+        Document doc = new Document(Constants.STRING_INPUT, OperatorHelper.getExpressionValue(input.toString()));
+        /**
+         * chars 参数为可选项
+         */
+        if (null != chars) {
+            doc.append(Constants.STRING_CHARS, OperatorHelper.getExpressionValue(chars.toString()));
+        }
+
+        return new Document(OperatorExpressionConstants.TRIM, doc);
+    }
+
+    /**
+     * toUpper 操作符解析
+     *
+     * <code>
+     *     { $toUpper: <expression> }
+     * </code>
+     *
+     * @param expression 表达式
+     * @return
+     */
+    public static Document toUpper(String expression) {
+        return new Document(OperatorExpressionConstants.TO_UPPER, OperatorHelper.getExpressionValue(expression));
+    }
+
 
 }
 
