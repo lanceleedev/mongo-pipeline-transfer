@@ -109,18 +109,28 @@ public final class DateExpressionOperators {
      * @return
      */
     public static Document year(String json) {
+        /**
+         * 判断是表达式，还是字段
+         */
         if (json.startsWith(Constants.LBRACE)) {
             JSONObject expObj = JSONObject.parseObject(json);
-            String dateVal = expObj.getString(Constants.DATE_DATE);
-            Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
-            Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal));
 
-            if (null != timezoneVal) {
-                docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
+            Object dateVal = expObj.get(Constants.DATE_DATE);
+            /**
+             * 判断是哪一种写法
+             */
+            if (null != dateVal) {
+                Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal.toString()));
+
+                Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
+                if (null != timezoneVal) {
+                    docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
+                }
+
+                return new Document(OperatorExpressionConstants.YEAR, docContent);
             }
-
-            return new Document(OperatorExpressionConstants.YEAR, docContent);
         }
+
         return new Document(OperatorExpressionConstants.YEAR, OperatorHelper.getExpressionValue(json));
     }
 
@@ -138,19 +148,29 @@ public final class DateExpressionOperators {
      * @return
      */
     public static Document month(String json) {
+        /**
+         * 判断是表达式，还是字段
+         */
         if (json.startsWith(Constants.LBRACE)) {
             JSONObject expObj = JSONObject.parseObject(json);
-            String dateVal = expObj.getString(Constants.DATE_DATE);
-            Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
-            Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal));
 
-            if (null != timezoneVal) {
-                docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
+            Object dateVal = expObj.get(Constants.DATE_DATE);
+            /**
+             * 判断是哪一种写法
+             */
+            if (null != dateVal) {
+                Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal.toString()));
+
+                Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
+                if (null != timezoneVal) {
+                    docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
+                }
+
+                return new Document(OperatorExpressionConstants.MONTH, docContent);
             }
-
-            return new Document(OperatorExpressionConstants.MONTH, docContent);
+            return new Document(OperatorExpressionConstants.MONTH, OperatorHelper.getExpressionValue(json));
         }
-        return new Document(OperatorExpressionConstants.MONTH, OperatorHelper.getExpressionValue(json));
 
+        return new Document(OperatorExpressionConstants.MONTH, OperatorHelper.getExpressionValue(json));
     }
 }

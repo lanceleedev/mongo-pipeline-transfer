@@ -65,19 +65,8 @@ public final class ConditionalExpressionOperators {
         String expStr = array.get(0).toString().trim();
         String repStr = array.get(1).toString().trim();
 
-        Object fieldExpression = null;
-        if (expStr.startsWith(Constants.LBRACE)) {
-            fieldExpression = ExpressionHelper.parse(expStr);
-        } else {
-            fieldExpression = TypesHelper.parse(expStr);
-        }
-
-        Object replacement = null;
-        if (repStr.startsWith(Constants.LBRACE)) {
-            replacement = ExpressionHelper.parse(repStr);
-        } else {
-            replacement = TypesHelper.parse(repStr);
-        }
+        Object fieldExpression = OperatorHelper.getExpressionValue(expStr);;
+        Object replacement = OperatorHelper.getExpressionValue(repStr);
 
         return new Document(OperatorExpressionConstants.IF_NULL, Arrays.asList(fieldExpression, replacement));
     }
@@ -127,7 +116,7 @@ public final class ConditionalExpressionOperators {
 
         // optional default handle
         if (null != switchDefault) {
-            switchDocument.append(Constants.SWITCH_DEFAULT, "No scores found.");
+            switchDocument.append(Constants.SWITCH_DEFAULT, OperatorHelper.getExpressionValue(switchDefault.toString()));
         }
 
         return new Document(OperatorExpressionConstants.SWITCH, switchDocument);
