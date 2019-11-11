@@ -96,6 +96,153 @@ public final class DateExpressionOperators {
     }
 
     /**
+     * $dayOfMonth 操作符解析
+     * <code>
+     *     { $dayOfMonth: <dateExpression> }
+     *     or
+     *     { $dayOfMonth: {
+     *          date: <dateExpression>,
+     *          timezone: <tzExpression> // Optional.
+     *     }}
+     * </code>
+     * Sample:
+     * <code>
+     *     { $dayOfMonth: new Date("2016-01-01") }
+     *     { $dayOfMonth: { date: new Date("Jan 7, 2003") } }
+     *     { $dayOfMonth: {
+     *          date: new Date("August 14, 2011"),
+     *          timezone: "America/Chicago"
+     *     } }
+     * </code>
+     * @param json 操作符内容
+     * @return
+     */
+    public static Document dayOfMonth(String json) {
+        /**
+         * 判断是表达式，还是字段
+         */
+        if (json.startsWith(Constants.LBRACE)) {
+            JSONObject expObj = JSONObject.parseObject(json);
+
+            Object dateVal = expObj.get(Constants.DATE_DATE);
+            /**
+             * 此处只处理第二种写法，对于第一种写法中的表达式嵌套不处理，交由外部处理
+             */
+            if (null != dateVal) {
+                Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal.toString()));
+
+                Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
+                if (null != timezoneVal) {
+                    docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
+                }
+
+                return new Document(OperatorExpressionConstants.DAY_OF_MONTH, docContent);
+            }
+        }
+
+        return new Document(OperatorExpressionConstants.DAY_OF_MONTH, OperatorHelper.getExpressionValue(json));
+    }
+
+
+    /**
+     * $dayOfWeek 操作符解析
+     * <code>
+     *     { $dayOfWeek: <dateExpression> }
+     *     or
+     *     { $dayOfWeek: {
+     *          date: <dateExpression>,
+     *          timezone: <tzExpression> // Optional.
+     *     }}
+     * </code>
+     * Sample:
+     * <code>
+     *     { $dayOfWeek: new Date("2016-01-01") }
+     *     { $dayOfWeek: { date: new Date("Jan 7, 2003") } }
+     *     { $dayOfWeek: {
+     *          date: new Date("August 14, 2011"),
+     *          timezone: "America/Chicago"
+     *     } }
+     * </code>
+     * @param json 操作符内容
+     * @return
+     */
+    public static Document dayOfWeek(String json) {
+        /**
+         * 判断是表达式，还是字段
+         */
+        if (json.startsWith(Constants.LBRACE)) {
+            JSONObject expObj = JSONObject.parseObject(json);
+
+            Object dateVal = expObj.get(Constants.DATE_DATE);
+            /**
+             * 此处只处理第二种写法，对于第一种写法中的表达式嵌套不处理，交由外部处理
+             */
+            if (null != dateVal) {
+                Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal.toString()));
+
+                Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
+                if (null != timezoneVal) {
+                    docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
+                }
+
+                return new Document(OperatorExpressionConstants.DAY_OF_WEEK, docContent);
+            }
+        }
+
+        return new Document(OperatorExpressionConstants.DAY_OF_WEEK, OperatorHelper.getExpressionValue(json));
+    }
+
+
+    /**
+     * $dayOfYear 操作符解析
+     * <code>
+     *     { $dayOfYear: <dateExpression> }
+     *     or
+     *     { $dayOfYear: {
+     *          date: <dateExpression>,
+     *          timezone: <tzExpression> // Optional.
+     *     }}
+     * </code>
+     * Sample:
+     * <code>
+     *     { $dayOfYear: new Date("2016-01-01") }
+     *     { $dayOfYear: { date: new Date("Jan 7, 2003") } }
+     *     { $dayOfYear: {
+     *          date: new Date("August 14, 2011"),
+     *          timezone: "America/Chicago"
+     *     } }
+     * </code>
+     * @param json 操作符内容
+     * @return
+     */
+    public static Document dayOfYear(String json) {
+        /**
+         * 判断是表达式，还是字段
+         */
+        if (json.startsWith(Constants.LBRACE)) {
+            JSONObject expObj = JSONObject.parseObject(json);
+
+            Object dateVal = expObj.get(Constants.DATE_DATE);
+            /**
+             * 此处只处理第二种写法，对于第一种写法中的表达式嵌套不处理，交由外部处理
+             */
+            if (null != dateVal) {
+                Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal.toString()));
+
+                Object timezoneVal = expObj.get(Constants.DATE_TIMEZONE);
+                if (null != timezoneVal) {
+                    docContent.append(Constants.DATE_TIMEZONE, OperatorHelper.getExpressionValue(timezoneVal.toString()));
+                }
+
+                return new Document(OperatorExpressionConstants.DAY_OF_YEAR, docContent);
+            }
+        }
+
+        return new Document(OperatorExpressionConstants.DAY_OF_YEAR, OperatorHelper.getExpressionValue(json));
+    }
+
+
+    /**
      * $year 操作符解析。支持2中格式
      * <code>
      * { $year: <dateExpression> }
@@ -117,7 +264,7 @@ public final class DateExpressionOperators {
 
             Object dateVal = expObj.get(Constants.DATE_DATE);
             /**
-             * 判断是哪一种写法
+             * 此处只处理第二种写法，对于第一种写法中的表达式嵌套不处理，交由外部处理
              */
             if (null != dateVal) {
                 Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal.toString()));
@@ -156,7 +303,7 @@ public final class DateExpressionOperators {
 
             Object dateVal = expObj.get(Constants.DATE_DATE);
             /**
-             * 判断是哪一种写法
+             * 此处只处理第二种写法，对于第一种写法中的表达式嵌套不处理，交由外部处理
              */
             if (null != dateVal) {
                 Document docContent = new Document(Constants.DATE_DATE, OperatorHelper.getExpressionValue(dateVal.toString()));

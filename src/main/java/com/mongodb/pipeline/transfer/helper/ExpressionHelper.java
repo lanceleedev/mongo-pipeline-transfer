@@ -108,6 +108,15 @@ public final class ExpressionHelper {
             case OperatorExpressionConstants.DATE_TO_STRING:
                 operation = DateExpressionOperators.dateToString(value);
                 break;
+            case OperatorExpressionConstants.DAY_OF_MONTH:
+                operation = DateExpressionOperators.dayOfMonth(value);
+                break;
+            case OperatorExpressionConstants.DAY_OF_WEEK:
+                operation = DateExpressionOperators.dayOfWeek(value);
+                break;
+            case OperatorExpressionConstants.DAY_OF_YEAR:
+                operation = DateExpressionOperators.dayOfYear(value);
+                break;
             case OperatorExpressionConstants.MONTH:
                 operation = DateExpressionOperators.month(value);
                 break;
